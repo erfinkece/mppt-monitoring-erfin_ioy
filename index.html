@@ -2,7 +2,12 @@
 <html>
 <head>
   <base target="_top">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Monitoring SCC MPPT</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     body {
@@ -26,7 +31,7 @@
     header p {
       margin: 6px 0 0;
       font-size: 13px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
 
     .container {
@@ -118,7 +123,9 @@
       font-size: 13px;
     }
 
-    th { background: #e2e8f0; }
+    th {
+      background: #e2e8f0;
+    }
 
     .small {
       font-size: 12px;
@@ -126,7 +133,7 @@
     }
 
     .api-box {
-      background: #fff;
+      background: white;
       padding: 10px;
       border-radius: 10px;
       font-size: 12px;
@@ -134,13 +141,39 @@
       margin-bottom: 16px;
       color: #334155;
     }
+
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .chart-card {
+      background: white;
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.08);
+      min-height: 310px;
+    }
+
+    .chart-card h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: #0f172a;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 250px !important;
+    }
   </style>
 </head>
 
 <body>
   <header>
     <h1>Monitoring SCC MPPT Pompa Air DC</h1>
-    <p>Panel 50Wp â€¢ BTS7960 Buck â€¢ Aki 12V â€¢ ESP32 â€¢ Google Sheet Logger</p>
+    <p>Panel 50Wp - BTS7960 Buck - Aki 12V - ESP32 - Google Sheet Logger</p>
   </header>
 
   <div class="container">
@@ -169,6 +202,29 @@
       <div class="card"><div class="label">Pompa</div><div class="value"><span id="pompa">-</span></div></div>
       <div class="card"><div class="label">Relay</div><div class="value"><span id="relay">-</span></div></div>
       <div class="card"><div class="label">Float Switch</div><div class="value"><span id="floatSw">-</span></div></div>
+    </div>
+
+    <h2>Grafik Harian</h2>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Duty Cycle PWM terhadap Waktu</h3>
+        <canvas id="chartDuty"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Tegangan Panel dan Baterai</h3>
+        <canvas id="chartVoltage"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Daya Panel dan Daya Charging</h3>
+        <canvas id="chartPower"></canvas>
+      </div>
+
+      <div class="chart-card">
+        <h3>Energi Kumulatif Harian</h3>
+        <canvas id="chartEnergy"></canvas>
+      </div>
     </div>
 
     <h2>Rekap Hasil Charging per Sesi</h2>
@@ -213,12 +269,11 @@
   </div>
 
   <script>
-    // PENTING: ini harus satu URL saja, jangan dobel / digabung.
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxtWAOCgfbLDODZ-PdGWI_uXMYgpbjuayVtOOtBmusVdcNsVH2HlHccoHv39b5IAVNd/exec";
-
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxtWAOCgfbLDODZ-PdGWI_uXMYgpbjuayVtOOtBmusVdcNsVH2HIHccoHv39b5IAVNd/exec";
     document.getElementById("apiUrlText").textContent = WEB_APP_URL;
 
     const sessions = ["PAGI", "SIANG", "SORE", "MALAM", "LUAR_SESI", "TOTAL"];
+    const charts = {};
 
     function todayStr() {
       const d = new Date();
@@ -234,7 +289,6 @@
       const date = document.getElementById("dateInput").value;
       document.getElementById("lastUpdate").textContent = "Memuat data...";
 
-      // Kalau halaman ini dibuka dari Apps Script langsung, gunakan google.script.run.
       if (typeof google !== "undefined" && google.script && google.script.run) {
         google.script.run
           .withSuccessHandler(render)
@@ -245,7 +299,6 @@
         return;
       }
 
-      // Kalau halaman ini dibuka dari GitHub Pages, gunakan JSONP.
       loadDataJsonp(date);
     }
 
@@ -318,6 +371,7 @@
 
       renderSummary(data.summary || {});
       renderRows(data.lastRows || []);
+      renderCharts(data.chartRows || []);
     }
 
     function renderSummary(summary) {
@@ -368,6 +422,95 @@
       });
     }
 
+    function renderCharts(rows) {
+      const labels = rows.map(r => r.time || "");
+      const duty = rows.map(r => num(r.duty));
+      const vpv = rows.map(r => num(r.vpv));
+      const vbat = rows.map(r => num(r.vbat));
+      const ppv = rows.map(r => num(r.ppv));
+      const pbat = rows.map(r => num(r.pbat));
+      const epv = rows.map(r => num(r.epvCum));
+      const ebatt = rows.map(r => num(r.ebattCum));
+
+      makeLineChart("chartDuty", "duty", labels, [
+        { label: "Duty PWM (%)", data: duty }
+      ], "Duty (%)");
+
+      makeLineChart("chartVoltage", "voltage", labels, [
+        { label: "Vpanel (V)", data: vpv },
+        { label: "Vbatt (V)", data: vbat }
+      ], "Tegangan (V)");
+
+      makeLineChart("chartPower", "power", labels, [
+        { label: "Ppanel (W)", data: ppv },
+        { label: "Pbatt (W)", data: pbat }
+      ], "Daya (W)");
+
+      makeLineChart("chartEnergy", "energy", labels, [
+        { label: "Energi Panel (Wh)", data: epv },
+        { label: "Energi Baterai (Wh)", data: ebatt }
+      ], "Energi (Wh)");
+    }
+
+    function makeLineChart(canvasId, key, labels, datasets, yLabel) {
+      const ctx = document.getElementById(canvasId).getContext("2d");
+
+      if (charts[key]) {
+        charts[key].data.labels = labels;
+        charts[key].data.datasets = datasets.map(ds => ({
+          label: ds.label,
+          data: ds.data,
+          tension: 0.25,
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false
+        }));
+        charts[key].update();
+        return;
+      }
+
+      charts[key] = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: datasets.map(ds => ({
+            label: ds.label,
+            data: ds.data,
+            tension: 0.25,
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false
+          }))
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: "index",
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              display: true
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                maxTicksLimit: 8
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: yLabel
+              }
+            }
+          }
+        }
+      });
+    }
+
     function setText(id, value) {
       document.getElementById(id).textContent = fmt(value);
     }
@@ -378,12 +521,15 @@
       return Math.round(n * 100) / 100;
     }
 
+    function num(v) {
+      const n = Number(v);
+      return isNaN(n) ? 0 : n;
+    }
+
     function statusClass(st) {
       st = st.toUpperCase();
 
-      if (st.includes("CHARGE") || st.includes("READY") || st.includes("MPPT") || st.includes("START") || st.includes("TEST")) {
-        return "ok";
-      }
+      if (st.includes("CHARGE") || st.includes("READY") || st.includes("MPPT") || st.includes("START") || st.includes("TEST")) return "ok";
       if (st.includes("NIGHT") || st.includes("MALAM")) return "night";
       if (st.includes("FULL") || st.includes("LOW") || st.includes("LIMIT") || st.includes("VB ERR") || st.includes("VP")) return "warn";
       if (st.includes("SHORT") || st.includes("OVERCURRENT")) return "bad";
@@ -391,7 +537,7 @@
     }
 
     loadData();
-    setInterval(loadData, 5000);
+    setInterval(loadData, 10000);
   </script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"7939e04a4baf43c8b86a560f74aac60e","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"8d57f005eff546ba871311748ac6df7b","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
