@@ -209,7 +209,12 @@
       min-height: 320px;
     }
     .chart-card h3 { margin: 0 0 16px; font-size: 16px; color: var(--text-secondary); }
-
+/* TAMBAHKAN KODE INI */
+    .canvas-container {
+      position: relative;
+      height: 320px; /* Mengunci tinggi grafik agar tidak melar ke bawah */
+      width: 100%;
+    }
     /* Tables */
     .table-container {
       overflow-x: auto;
@@ -279,19 +284,30 @@
     <div class="chart-grid">
       <div class="chart-card">
         <h3>Daya Panel vs Daya Charging (Watt)</h3>
-        <canvas id="chartPower"></canvas>
+        <div class="canvas-container">
+          <canvas id="chartPower"></canvas>
+        </div>
       </div>
+      
       <div class="chart-card">
         <h3>Tegangan Panel vs Baterai (Volt)</h3>
-        <canvas id="chartVoltage"></canvas>
+        <div class="canvas-container">
+          <canvas id="chartVoltage"></canvas>
+        </div>
       </div>
+      
       <div class="chart-card">
         <h3>Duty Cycle MPPT (%)</h3>
-        <canvas id="chartDuty"></canvas>
+        <div class="canvas-container">
+          <canvas id="chartDuty"></canvas>
+        </div>
       </div>
+      
       <div class="chart-card">
         <h3>Akumulasi Energi (Wh)</h3>
-        <canvas id="chartEnergy"></canvas>
+        <div class="canvas-container">
+          <canvas id="chartEnergy"></canvas>
+        </div>
       </div>
     </div>
 
