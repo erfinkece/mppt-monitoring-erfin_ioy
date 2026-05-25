@@ -512,21 +512,24 @@
     // ==========================================
     function parseTimeToMs(timeStr) {
       if (!timeStr) return 0;
+      const s = String(timeStr);
       
-      // PERBAIKAN: Gunakan Regex untuk selalu mengekstrak pola Jam:Menit:Detik 
-      // dari teks apapun yang dikirim oleh Google Sheets
-      const match = String(timeStr).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
-      
-      if (match) {
-        const h = parseInt(match[1], 10); // Jam
-        const m = parseInt(match[2], 10); // Menit
-        const s = match[3] ? parseInt(match[3], 10) : 0; // Detik (jika ada)
-        
-        // Kembalikan nilai ke total milidetik sejak jam 00:00
-        return (h * 3600 + m * 60 + s) * 1000;
+      // Jika data dari Google berformat UTC (mengandung 'T' dan 'Z')
+      if (s.includes('T') && s.includes('Z')) {
+        const d = new Date(s);
+        // Konversi otomatis ke jam lokal (WIB) komputer/HP yang buka web
+        return (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds()) * 1000;
       }
       
-      return 0; // Fallback jika tidak ada waktu
+      // Jika format normal (contoh: "13:17:00")
+      const match = s.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+      if (match) {
+        const h = parseInt(match[1], 10);
+        const m = parseInt(match[2], 10);
+        const sec = match[3] ? parseInt(match[3], 10) : 0;
+        return (h * 3600 + m * 60 + sec) * 1000;
+      }
+      return 0;
     }
 
     function applyChartFilter() {
@@ -637,18 +640,26 @@
     }
 
     function renderCharts(rows) {
-      // PERBAIKAN: Rapikan label teks di bawah grafik (Sumbu X) agar enak dibaca
+      // Perbaikan konversi zona waktu untuk label grafik
       const labels = rows.map(r => {
         const timeStr = r.time || "";
-        // Ambil hanya angka Jam, Menit, dan Detik menggunakan Regex
-        const match = String(timeStr).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
-        if (match) {
-          const h = match[1].padStart(2, '0');
-          const m = match[2].padStart(2, '0');
-          const s = match[3] ? match[3].padStart(2, '0') : '00';
-          return `${h}:${m}:${s}`; // Hasilnya menjadi rapi, contoh: "06:31:16"
+        const s = String(timeStr);
+        
+        if (s.includes('T') && s.includes('Z')) {
+          const d = new Date(s);
+          // Ambil jam lokal dan tambahkan '0' di depan jika angkanya di bawah 10
+          return String(d.getHours()).padStart(2, '0') + ':' + 
+                 String(d.getMinutes()).padStart(2, '0') + ':' + 
+                 String(d.getSeconds()).padStart(2, '0');
         }
-        return timeStr; // Fallback jika format tidak dikenali
+        
+        const match = s.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+        if (match) {
+          return match[1].padStart(2, '0') + ':' + 
+                 match[2].padStart(2, '0') + ':' + 
+                 (match[3] ? match[3].padStart(2, '0') : '00');
+        }
+        return timeStr;
       });
 
       const duty = rows.map(r => num(r.duty));
