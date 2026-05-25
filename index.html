@@ -637,7 +637,20 @@
     }
 
     function renderCharts(rows) {
-      const labels = rows.map(r => r.time || "");
+      // PERBAIKAN: Rapikan label teks di bawah grafik (Sumbu X) agar enak dibaca
+      const labels = rows.map(r => {
+        const timeStr = r.time || "";
+        // Ambil hanya angka Jam, Menit, dan Detik menggunakan Regex
+        const match = String(timeStr).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+        if (match) {
+          const h = match[1].padStart(2, '0');
+          const m = match[2].padStart(2, '0');
+          const s = match[3] ? match[3].padStart(2, '0') : '00';
+          return `${h}:${m}:${s}`; // Hasilnya menjadi rapi, contoh: "06:31:16"
+        }
+        return timeStr; // Fallback jika format tidak dikenali
+      });
+
       const duty = rows.map(r => num(r.duty));
       const vpv = rows.map(r => num(r.vpv));
       const vbat = rows.map(r => num(r.vbat));
@@ -660,7 +673,6 @@
         { label: "Energi Baterai (Wh)", data: ebatt, borderColor: '#00ff88', fill: true, backgroundColor: 'rgba(0, 255, 136, 0.1)' }
       ], "Energi Akumulatif (Wh)");
     }
-
     function makeLineChart(canvasId, key, labels, datasets, yLabel) {
       const ctx = document.getElementById(canvasId).getContext("2d");
       if (charts[key]) {
