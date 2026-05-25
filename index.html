@@ -512,14 +512,21 @@
     // ==========================================
     function parseTimeToMs(timeStr) {
       if (!timeStr) return 0;
-      let d;
-      // Parsing string waktu "HH:mm:ss" menjadi millisecond agar bisa dikurangi
-      if (timeStr.includes('-')) {
-        d = new Date(timeStr.replace(/-/g, '/')); 
-      } else {
-        d = new Date("2000/01/01 " + timeStr);
+      
+      // PERBAIKAN: Gunakan Regex untuk selalu mengekstrak pola Jam:Menit:Detik 
+      // dari teks apapun yang dikirim oleh Google Sheets
+      const match = String(timeStr).match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+      
+      if (match) {
+        const h = parseInt(match[1], 10); // Jam
+        const m = parseInt(match[2], 10); // Menit
+        const s = match[3] ? parseInt(match[3], 10) : 0; // Detik (jika ada)
+        
+        // Kembalikan nilai ke total milidetik sejak jam 00:00
+        return (h * 3600 + m * 60 + s) * 1000;
       }
-      return d.getTime();
+      
+      return 0; // Fallback jika tidak ada waktu
     }
 
     function applyChartFilter() {
