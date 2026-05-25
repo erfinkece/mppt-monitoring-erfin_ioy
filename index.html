@@ -18,11 +18,23 @@
       --accent-purple: #b537f2;
       --accent-green: #00ff88;
       --accent-orange: #ff9500;
-      --accent-pink: #ff3e88; /* Perbaikan 2: Tambah variabel warna pink */
+      --accent-pink: #ff3e88; 
       --text-primary: #ffffff;
       --text-secondary: #a8b3d4;
       --border: rgba(255, 255, 255, 0.08);
       --gradient-1: linear-gradient(135deg, #00d9ff 0%, #b537f2 100%);
+      
+      /* PALET WARNA KARTU STATUS */
+      --c-purple: #b537f2;
+      --c-yellow: #ffd60a;
+      --c-cyan: #00d9ff;
+      --c-blue: #3a86ff;
+      --c-orange: #ff9500;
+      --c-green: #00ff88;
+      --c-emerald: #02c39a;
+      --c-pink: #ff3e88;
+      --c-red: #ff3b30;
+      --c-teal: #00f5d4;
     }
 
     body {
@@ -94,7 +106,7 @@
       border: 1px solid var(--border);
     }
 
-    input[type="date"] {
+    input[type="date"], select {
       padding: 10px 14px;
       border-radius: 10px;
       border: 1px solid var(--border);
@@ -159,17 +171,19 @@
       border-radius: 16px;
       padding: 20px;
       border: 1px solid var(--border);
+      /* Custom Card Color Injection */
+      border-top: 4px solid var(--card-color, var(--accent-cyan)); 
       transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
     }
     .card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 217, 255, 0.1);
-      border-color: rgba(0, 217, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      border-color: var(--card-color, var(--accent-cyan));
     }
 
     .label { color: var(--text-secondary); font-size: 13px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-    .value { font-size: 28px; font-weight: 800; color: var(--accent-cyan); }
+    .value { font-size: 28px; font-weight: 800; color: var(--card-color, var(--accent-cyan)); }
     .value-unit { font-size: 14px; color: var(--text-secondary); }
 
     /* Status Pills */
@@ -195,6 +209,22 @@
     }
 
     /* Charts */
+    .chart-header {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      gap: 10px;
+      margin: 40px 0 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .chart-header h2 {
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+
     .chart-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -206,15 +236,15 @@
       border-radius: 16px;
       padding: 20px;
       border: 1px solid var(--border);
-      min-height: 320px;
     }
     .chart-card h3 { margin: 0 0 16px; font-size: 16px; color: var(--text-secondary); }
-/* TAMBAHKAN KODE INI */
+    
     .canvas-container {
       position: relative;
-      height: 320px; /* Mengunci tinggi grafik agar tidak melar ke bawah */
+      height: 320px;
       width: 100%;
     }
+
     /* Tables */
     .table-container {
       overflow-x: auto;
@@ -268,46 +298,49 @@
     </div>
 
     <div class="grid">
-      <div class="card"><div class="label">Sistem Status</div><div class="value"><span id="status" class="status">-</span></div></div>
-      <div class="card"><div class="label">Tegangan Panel</div><div class="value"><span id="vpv">0</span><span class="value-unit"> V</span></div></div>
-      <div class="card"><div class="label">Arus Panel</div><div class="value"><span id="ipv">0</span><span class="value-unit"> A</span></div></div>
-      <div class="card"><div class="label">Daya Panel (Input)</div><div class="value"><span id="ppv">0</span><span class="value-unit"> W</span></div></div>
-      <div class="card"><div class="label">Tegangan Aki</div><div class="value"><span id="vbat">0</span><span class="value-unit"> V</span></div></div>
-      <div class="card"><div class="label">Arus Charging</div><div class="value"><span id="ichg">0</span><span class="value-unit"> A</span></div></div>
-      <div class="card"><div class="label">Daya Baterai (Output)</div><div class="value"><span id="pbat">0</span><span class="value-unit"> W</span></div></div>
-      <div class="card"><div class="label">Duty Cycle PWM</div><div class="value"><span id="duty">0</span><span class="value-unit">%</span></div></div>
-      <div class="card"><div class="label">Pompa Air</div><div class="value"><span id="pompa">-</span></div></div>
-      <div class="card"><div class="label">Float Switch</div><div class="value"><span id="floatSw">-</span></div></div>
+      <div class="card" style="--card-color: var(--c-purple);"><div class="label">Sistem Status</div><div class="value"><span id="status" class="status">-</span></div></div>
+      <div class="card" style="--card-color: var(--c-yellow);"><div class="label">Tegangan Panel</div><div class="value"><span id="vpv">0</span><span class="value-unit"> V</span></div></div>
+      <div class="card" style="--card-color: var(--c-cyan);"><div class="label">Arus Panel</div><div class="value"><span id="ipv">0</span><span class="value-unit"> A</span></div></div>
+      <div class="card" style="--card-color: var(--c-blue);"><div class="label">Daya Panel (Input)</div><div class="value"><span id="ppv">0</span><span class="value-unit"> W</span></div></div>
+      <div class="card" style="--card-color: var(--c-orange);"><div class="label">Tegangan Aki</div><div class="value"><span id="vbat">0</span><span class="value-unit"> V</span></div></div>
+      <div class="card" style="--card-color: var(--c-green);"><div class="label">Arus Charging</div><div class="value"><span id="ichg">0</span><span class="value-unit"> A</span></div></div>
+      <div class="card" style="--card-color: var(--c-emerald);"><div class="label">Daya Baterai (Output)</div><div class="value"><span id="pbat">0</span><span class="value-unit"> W</span></div></div>
+      <div class="card" style="--card-color: var(--c-pink);"><div class="label">Duty Cycle PWM</div><div class="value"><span id="duty">0</span><span class="value-unit">%</span></div></div>
+      <div class="card" style="--card-color: var(--c-teal);"><div class="label">Pompa Air</div><div class="value"><span id="pompa">-</span></div></div>
+      <div class="card" style="--card-color: var(--c-red);"><div class="label">Float Switch</div><div class="value"><span id="floatSw">-</span></div></div>
     </div>
 
-    <h2 class="section-title">📈 Visualisasi Grafik Harian</h2>
+    <div class="chart-header">
+      <h2 class="section-title">📈 Visualisasi Grafik Harian</h2>
+      <select id="chartTimeFilter" onchange="applyChartFilter()">
+        <option value="0">Tampilkan Semua Waktu</option>
+        <option value="2">2 Menit Terakhir</option>
+        <option value="5">5 Menit Terakhir</option>
+        <option value="10">10 Menit Terakhir</option>
+        <option value="60">1 Jam Terakhir</option>
+        <option value="120">2 Jam Terakhir</option>
+        <option value="300">5 Jam Terakhir</option>
+        <option value="480">8 Jam Terakhir</option>
+        <option value="720">12 Jam Terakhir</option>
+      </select>
+    </div>
+    
     <div class="chart-grid">
       <div class="chart-card">
         <h3>Daya Panel vs Daya Charging (Watt)</h3>
-        <div class="canvas-container">
-          <canvas id="chartPower"></canvas>
-        </div>
+        <div class="canvas-container"><canvas id="chartPower"></canvas></div>
       </div>
-      
       <div class="chart-card">
         <h3>Tegangan Panel vs Baterai (Volt)</h3>
-        <div class="canvas-container">
-          <canvas id="chartVoltage"></canvas>
-        </div>
+        <div class="canvas-container"><canvas id="chartVoltage"></canvas></div>
       </div>
-      
       <div class="chart-card">
         <h3>Duty Cycle MPPT (%)</h3>
-        <div class="canvas-container">
-          <canvas id="chartDuty"></canvas>
-        </div>
+        <div class="canvas-container"><canvas id="chartDuty"></canvas></div>
       </div>
-      
       <div class="chart-card">
         <h3>Akumulasi Energi (Wh)</h3>
-        <div class="canvas-container">
-          <canvas id="chartEnergy"></canvas>
-        </div>
+        <div class="canvas-container"><canvas id="chartEnergy"></canvas></div>
       </div>
     </div>
 
@@ -360,10 +393,11 @@
     // ==========================================
     // CONFIGURATION & SETUP
     // ==========================================
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvlPpqswr3HyJdY1KAYZ7nhvsmBZli0n3nwJmj-c9hLsVJmsRLDAgnJflj1X4atko/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby6QNpyk-2vJDpLqPMTBdpRDQBKb9wF_ZrPzk4N8nomGP-W5u5SsH5kquh8ru-IjrM/exec";
     document.getElementById("apiUrlText").textContent = WEB_APP_URL;
     const sessions = ["PAGI", "SIANG", "SORE", "MALAM", "LUAR_SESI", "TOTAL"];
     const charts = {};
+    window.globalChartData = []; // Penyimpanan data grafik utama
 
     Chart.defaults.color = '#a8b3d4';
     Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
@@ -384,8 +418,7 @@
     function loadData() {
       const date = document.getElementById("dateInput").value;
       document.getElementById("lastUpdate").textContent = "Mengambil data dari server...";
-      document.getElementById("aiContent").innerHTML = "Sedang menyusun analisa data harian...";
-
+      
       if (typeof google !== "undefined" && google.script && google.script.run) {
         google.script.run
           .withSuccessHandler(render)
@@ -400,21 +433,17 @@
       const callbackName = "sccCallback_" + Date.now();
       let isTimeout = false;
 
-      // Perbaikan 3: Tambahkan fitur Timeout untuk JSONP (10 Detik)
       const timeoutId = setTimeout(() => {
         isTimeout = true;
         document.getElementById("lastUpdate").textContent = "Gagal memuat: Request Timeout (10s)";
-        document.getElementById("aiContent").innerHTML = "<span class='ai-warn'>Server tidak merespons. Cek koneksi internet atau ketersediaan Google Apps Script.</span>";
-        
-        // Cleanup script jika timeout
         delete window[callbackName];
         const oldScript = document.getElementById(callbackName);
         if (oldScript) oldScript.remove();
       }, 10000); 
 
       window[callbackName] = function(data) {
-        if (isTimeout) return; // Abaikan jika sudah terlanjur timeout
-        clearTimeout(timeoutId); // Batalkan timer timeout karena data berhasil masuk
+        if (isTimeout) return; 
+        clearTimeout(timeoutId); 
 
         try { render(data); } 
         finally {
@@ -431,9 +460,7 @@
       script.onerror = function() {
         if (isTimeout) return;
         clearTimeout(timeoutId);
-        
         document.getElementById("lastUpdate").textContent = "Gagal JSONP. Cek URL Web App / Koneksi.";
-        document.getElementById("aiContent").innerHTML = "<span class='ai-warn'>Gagal menarik data untuk dianalisa. Cek koneksi internet.</span>";
         delete window[callbackName];
         script.remove();
       };
@@ -449,7 +476,6 @@
       
       if (!data || !data.ok) {
         document.getElementById("lastUpdate").textContent = "Data tidak valid / Kosong";
-        document.getElementById("aiContent").innerHTML = "<span class='ai-warn'>Data log hari ini tidak ditemukan atau masih kosong.</span>";
         return;
       }
 
@@ -473,8 +499,54 @@
 
       renderSummary(data.summary || {});
       renderRows(data.lastRows || []);
-      renderCharts(data.chartRows || []);
+      
+      // Simpan data log seluruh hari untuk keperluan filter
+      window.globalChartData = data.chartRows || [];
+      applyChartFilter(); 
+      
       generateAIInsight(data.summary || {}, latest || {});
+    }
+
+    // ==========================================
+    // FILTER GRAFIK LOGIC
+    // ==========================================
+    function parseTimeToMs(timeStr) {
+      if (!timeStr) return 0;
+      let d;
+      // Parsing string waktu "HH:mm:ss" menjadi millisecond agar bisa dikurangi
+      if (timeStr.includes('-')) {
+        d = new Date(timeStr.replace(/-/g, '/')); 
+      } else {
+        d = new Date("2000/01/01 " + timeStr);
+      }
+      return d.getTime();
+    }
+
+    function applyChartFilter() {
+      if (!window.globalChartData || window.globalChartData.length === 0) {
+        renderCharts([]);
+        return;
+      }
+      
+      const filterMins = parseInt(document.getElementById("chartTimeFilter").value);
+      
+      if (filterMins === 0) {
+        renderCharts(window.globalChartData);
+        return;
+      }
+
+      // Ambil waktu dari point data paling terakhir
+      const latestRow = window.globalChartData[window.globalChartData.length - 1];
+      const latestMs = parseTimeToMs(latestRow.time);
+
+      // Filter array: Hanya simpan data yang selisih waktunya masuk ke dalam filter limit
+      const filteredData = window.globalChartData.filter(r => {
+        const rMs = parseTimeToMs(r.time);
+        const diffMins = (latestMs - rMs) / 60000;
+        return diffMins <= filterMins && diffMins >= 0; 
+      });
+
+      renderCharts(filteredData);
     }
 
     // ==========================================
@@ -491,16 +563,12 @@
 
       let html = `<p>Berdasarkan log data hari ini, berikut adalah kesimpulan performa sistem SCC MPPT kamu:</p><ul>`;
       
-      // Analisa Pagi
       html += `<li>🌅 <strong>Sesi Pagi (06.00 - 10.00):</strong> Panel mulai aktif menangkap radiasi matahari. Energi yang berhasil dikumpulkan sebesar <span class="ai-highlight">${fmt(pagi.epvWh)} Wh</span> dengan rata-rata injeksi daya <span class="ai-highlight">${fmt(pagi.avgPbat)} W</span> ke baterai. Efisiensi konversi MPPT pagi ini tercatat pada <span class="ai-highlight">${fmt(pagi.eff)}%</span>.</li>`;
       
-      // Analisa Siang
       html += `<li>☀️ <strong>Sesi Siang (11.00 - 14.00):</strong> Periode puncak iradiasi! Sistem menyerap total energi <span class="ai-highlight">${fmt(siang.epvWh)} Wh</span> dari panel. MPPT bekerja optimal menekan *losses*, menyalurkan <span class="ai-highlight">${fmt(siang.ebattWh)} Wh</span> energi murni ke aki dengan tingkat efisiensi rata-rata <span class="ai-highlight">${fmt(siang.eff)}%</span>.</li>`;
 
-      // Analisa Sore
       html += `<li>⛅ <strong>Sesi Sore (15.00 - 18.00):</strong> Intensitas matahari menurun. Sisa energi yang ditarik sebesar <span class="ai-highlight">${fmt(sore.epvWh)} Wh</span>. Algoritma Perturb & Observe menahan duty cycle agar aki tidak ter-discharge balik.</li>`;
       
-      // Analisa Baterai dan Beban Akhir
       let battStatus = "Aman";
       if(vBattCurrent > 13.8) battStatus = "<span class='ai-highlight'>Kondisi Penuh (Float)</span>";
       else if (vBattCurrent < 11.5) battStatus = "<span class='ai-warn'>Kritis (Low Voltage)</span>";
@@ -641,7 +709,6 @@
 
     // Auto Refresh
     loadData();
-    // Perbaikan 4: Ubah interval menjadi 60.000 ms (1 menit)
     setInterval(loadData, 60000); 
   </script>
 </body>
