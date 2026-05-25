@@ -161,8 +161,8 @@
     /* Grid Status Cards */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(5, 1fr); /* Memaksa kartu menyusun persis 5 kolom */
+      gap: 20px;
       margin-bottom: 32px;
     }
 
@@ -176,6 +176,7 @@
       transition: transform 0.3s, box-shadow 0.3s;
       position: relative;
     }
+    
     .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.4);
@@ -322,8 +323,20 @@
       }
       
       .card {
-        padding: 16px;
-      }
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 24px 20px; /* Padding vertikal ditambah agar lebih tebal/luas */
+      min-height: 115px;  /* Mengunci tinggi minimal kartu agar lebih gagah */
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--card-color, var(--accent-cyan)); 
+      transition: transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      /* Tambahan Flexbox agar teks atas dan bawah terpisah rapi di dalam kartu tinggi */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
 
       .value {
         font-size: 22px;
