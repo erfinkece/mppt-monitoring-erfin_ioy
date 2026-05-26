@@ -526,13 +526,14 @@
       const callbackName = "sccCallback_" + Date.now();
       let isTimeout = false;
 
+      // Perpanjang waktu tunggu menjadi 30 detik (30000 ms)
       const timeoutId = setTimeout(() => {
         isTimeout = true;
-        document.getElementById("lastUpdate").textContent = "Gagal memuat: Request Timeout (10s)";
+        document.getElementById("lastUpdate").textContent = "Gagal memuat: Request Timeout (30s) - Server Google Sedang Sibuk";
         delete window[callbackName];
         const oldScript = document.getElementById(callbackName);
         if (oldScript) oldScript.remove();
-      }, 10000); 
+      }, 30000); // <-- Ubah angka 10000 menjadi 30000 di sini
 
       window[callbackName] = function(data) {
         if (isTimeout) return; 
