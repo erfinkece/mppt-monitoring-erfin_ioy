@@ -552,7 +552,7 @@
     // ==========================================
     // CONFIGURATION & SETUP
     // ==========================================
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwTzT2DWFYnX_gO-JoJ_XfXxZQIiX4P-vpVIgME-BxiL41vSx2E772_Y_sMl6EASnge/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxeNZuuUAc1dpktyffqRh1-n7Jrv61rVJB-bbtnqbMz9OCu_jXhd5DYB3otEbW8e2Kc/exec";
     document.getElementById("apiUrlText").textContent = WEB_APP_URL;
     const sessions = ["PAGI", "SIANG", "SORE", "MALAM", "LUAR_SESI", "TOTAL"];
     const charts = {};
@@ -569,14 +569,13 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
-    document.getElementById("dateInput").value = todayStr();
-
     // ==========================================
     // DATA FETCHING (JSONP)
     // ==========================================
     function loadData() {
       const date = document.getElementById("dateInput").value;
-      document.getElementById("lastUpdate").textContent = "Mengambil data dari server...";
+      // Paksa load data saat kalender diubah manual
+    document.getElementById("dateInput").addEventListener("change", loadData);
       
       if (typeof google !== "undefined" && google.script && google.script.run) {
         google.script.run
