@@ -77,7 +77,9 @@
       font-size: 26px;
       font-weight: 800;
       background: var(--gradient-1);
+      background-clip: text;
       -webkit-background-clip: text;
+      color: transparent;
       -webkit-text-fill-color: transparent;
     }
 
@@ -569,13 +571,18 @@
       return `${yyyy}-${mm}-${dd}`;
     }
 
+    // [FIX #2] Inisialisasi dateInput dengan tanggal hari ini
+    document.getElementById("dateInput").value = todayStr();
+
+    // [FIX #3] Event listener change HANYA didaftarkan SEKALI di sini (bukan di dalam loadData)
+    document.getElementById("dateInput").addEventListener("change", loadData);
+
     // ==========================================
     // DATA FETCHING (JSONP)
     // ==========================================
     function loadData() {
       const date = document.getElementById("dateInput").value;
-      // Paksa load data saat kalender diubah manual
-    document.getElementById("dateInput").addEventListener("change", loadData);
+      // [FIX #3] Event listener sudah didaftarkan di atas, tidak perlu di sini lagi
       
       if (typeof google !== "undefined" && google.script && google.script.run) {
         google.script.run
@@ -796,6 +803,50 @@
       html += `</div>`;
 
       document.getElementById("aiContent").innerHTML = html;
+    }
+
+    // [FIX #1] Fungsi renderSummary yang HILANG — penyebab utama grafik dan AI tidak muncul
+    function renderSummary(summary) {
+      const body = document.getElementById("summaryBody");
+      body.innerHTML = "";
+
+      const sessionLabels = {
+        PAGI:       "🌅 Pagi (06–11)",
+        SIANG:      "☀️ Siang (11–15)",
+        SORE:       "⛅ Sore (15–18)",
+        MALAM:      "🌙 Malam (18–06)",
+        LUAR_SESI:  "⏱️ Luar Sesi",
+        TOTAL:      "📊 Total Hari Ini"
+      };
+
+      const keys = ["PAGI", "SIANG", "SORE", "MALAM", "LUAR_SESI", "TOTAL"];
+      let hasData = false;
+
+      keys.forEach(key => {
+        const s = summary[key];
+        if (!s || s.count === 0) return;
+        hasData = true;
+
+        const isTotal = key === "TOTAL";
+        const tr = document.createElement("tr");
+        if (isTotal) tr.style.fontWeight = "bold";
+
+        tr.innerHTML = `
+          <td style="color: var(--accent-cyan)">${sessionLabels[key] || key}</td>
+          <td>${s.count}</td>
+          <td>${fmt(s.epvWh)} Wh</td>
+          <td>${fmt(s.ebattWh)} Wh</td>
+          <td>${fmt(s.avgPpv)} / ${fmt(s.maxPpv)} W</td>
+          <td>${fmt(s.avgPbat)} / ${fmt(s.maxPbat)} W</td>
+          <td>${fmt(s.avgDuty)}%</td>
+          <td>${fmt(s.eff)}%</td>
+        `;
+        body.appendChild(tr);
+      });
+
+      if (!hasData) {
+        body.innerHTML = `<tr><td colspan="8" class="empty">Belum ada data untuk tanggal ini</td></tr>`;
+      }
     }
 
     function renderRows(rows) {
