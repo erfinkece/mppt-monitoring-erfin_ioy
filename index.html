@@ -157,7 +157,63 @@
     }
     .ai-highlight { color: var(--accent-green); font-weight: bold; }
     .ai-warn { color: var(--accent-orange); font-weight: bold; }
+/* =========================================
+       BANNER NOTIFIKASI AI DYNAMIC
+       ========================================= */
+    .ai-alert-banner {
+      margin: 0 0 24px 0;
+      padding: 20px 24px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      background: var(--bg-card);
+    }
+    
+    /* State: AMAN */
+    .ai-alert-banner.aman {
+      background: linear-gradient(145deg, rgba(0, 255, 136, 0.1), rgba(0, 0, 0, 0.3));
+      border-color: rgba(0, 255, 136, 0.4);
+      box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+    }
+    /* State: WASPADA */
+    .ai-alert-banner.waspada {
+      background: linear-gradient(145deg, rgba(255, 149, 0, 0.15), rgba(0, 0, 0, 0.3));
+      border-color: rgba(255, 149, 0, 0.5);
+      box-shadow: 0 0 20px rgba(255, 149, 0, 0.1);
+    }
+    /* State: BAHAYA (Pulsing Glow) */
+    .ai-alert-banner.bahaya {
+      background: linear-gradient(145deg, rgba(255, 59, 48, 0.2), rgba(0, 0, 0, 0.4));
+      border-color: rgba(255, 59, 48, 0.8);
+      animation: pulseRed 2s infinite;
+    }
+    @keyframes pulseRed {
+      0% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.2); }
+      50% { box-shadow: 0 0 40px rgba(255, 59, 48, 0.5); }
+      100% { box-shadow: 0 0 15px rgba(255, 59, 48, 0.2); }
+    }
 
+    .ai-alert-icon { font-size: 38px; margin-right: 20px; }
+    .ai-alert-text { flex-grow: 1; }
+    .ai-alert-title { 
+      margin: 0 0 6px; font-size: 13px; color: var(--text-secondary); 
+      text-transform: uppercase; letter-spacing: 1.5px; font-weight: 800; 
+    }
+    .ai-alert-status { margin: 0; font-size: 28px; font-weight: 900; letter-spacing: 1px;}
+    .ai-alert-score { text-align: right; border-left: 1px solid var(--border); padding-left: 20px;}
+    .ai-alert-score-value { font-size: 36px; font-weight: 900; display: block; line-height: 1; }
+    .ai-alert-score-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; display: block;}
+
+    /* Penyesuaian Mobile HP untuk Banner AI */
+    @media (max-width: 768px) {
+      .ai-alert-banner { flex-direction: column; text-align: center; gap: 16px;}
+      .ai-alert-icon { margin-right: 0; font-size: 48px; }
+      .ai-alert-score { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 12px; width: 100%;}
+    }
     /* Grid Status Cards */
     .grid {
       display: grid;
@@ -382,7 +438,17 @@
       <button onclick="loadData()">🔄 Refresh Data</button>
       <span class="small" id="lastUpdate">Status: Belum load data</span>
     </div>
-
+<div id="aiAlertBanner" class="ai-alert-banner">
+      <div class="ai-alert-icon" id="aiAlertIcon">🤖</div>
+      <div class="ai-alert-text">
+        <h4 class="ai-alert-title">Edge AI & Fuzzy Logic Status</h4>
+        <h2 class="ai-alert-status" id="aiAlertStatus">SINKRONISASI...</h2>
+      </div>
+      <div class="ai-alert-score">
+        <span class="ai-alert-score-value"><span id="aiAlertScore">0</span>%</span>
+        <span class="ai-alert-score-label">Tingkat Anomali</span>
+      </div>
+    </div>
     <div class="ai-box" id="aiInsightBox">
       <h2>🤖 AI Smart Summary Analysis</h2>
       <div class="ai-content" id="aiContent">
@@ -654,7 +720,7 @@
     }
 
     // ==========================================
-    // AI SMART SUMMARY GENERATOR
+    // AI SMART SUMMARY GENERATOR (DYNAMIC)
     // ==========================================
     function generateAIInsight(summary, latest) {
       let pagi = summary["PAGI"] || { epvWh: 0, ebattWh: 0, avgPpv: 0, avgPbat: 0, eff: 0 };
@@ -664,47 +730,73 @@
       
       let pumpStatus = latest.Pompa || "OFF";
       let vBattCurrent = parseFloat(latest.Vbat) || 0;
-
-      let html = `<p>Berdasarkan log data hari ini, berikut adalah kesimpulan performa sistem SCC MPPT kamu:</p><ul>`;
       
-      html += `<li>🌅 <strong>Sesi Pagi (06.00 - 10.00):</strong> Panel mulai aktif menangkap radiasi matahari. Energi yang berhasil dikumpulkan sebesar <span class="ai-highlight">${fmt(pagi.epvWh)} Wh</span> dengan rata-rata injeksi daya <span class="ai-highlight">${fmt(pagi.avgPbat)} W</span> ke baterai. Efisiensi konversi MPPT pagi ini tercatat pada <span class="ai-highlight">${fmt(pagi.eff)}%</span>.</li>`;
-      
-      html += `<li>☀️ <strong>Sesi Siang (11.00 - 14.00):</strong> Periode puncak iradiasi! Sistem menyerap total energi <span class="ai-highlight">${fmt(siang.epvWh)} Wh</span> dari panel. MPPT bekerja optimal menekan *losses*, menyalurkan <span class="ai-highlight">${fmt(siang.ebattWh)} Wh</span> energi murni ke aki dengan tingkat efisiensi rata-rata <span class="ai-highlight">${fmt(siang.eff)}%</span>.</li>`;
+      // Ambil data AI
+      let aiScore = parseFloat(latest.AI_Score) || 0;
+      let aiStatus = (latest.AI_Status || "MENUNGGU").toUpperCase();
 
-      html += `<li>⛅ <strong>Sesi Sore (15.00 - 18.00):</strong> Intensitas matahari menurun. Sisa energi yang ditarik sebesar <span class="ai-highlight">${fmt(sore.epvWh)} Wh</span>. Algoritma Perturb & Observe menahan duty cycle agar aki tidak ter-discharge balik.</li>`;
+      // --- 1. UPDATE BANNER AI ALERT ---
+      const banner = document.getElementById("aiAlertBanner");
+      const iconEl = document.getElementById("aiAlertIcon");
+      const statusEl = document.getElementById("aiAlertStatus");
+      const scoreEl = document.getElementById("aiAlertScore");
       
-      let battStatus = "Aman";
-      if(vBattCurrent > 13.8) battStatus = "<span class='ai-highlight'>Kondisi Penuh (Float)</span>";
-      else if (vBattCurrent < 11.5) battStatus = "<span class='ai-warn'>Kritis (Low Voltage)</span>";
+      scoreEl.textContent = aiScore.toFixed(1);
+      statusEl.textContent = aiStatus;
+      
+      // Reset State
+      banner.className = "ai-alert-banner"; 
+      statusEl.style.color = "var(--text-primary)"; 
+      let aiDynamicText = "";
+      let aiThemeColor = "var(--accent-cyan)";
 
-      html += `</ul><div style="margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border);">`;
-      html += `<strong>📊 Akumulasi Harian & Beban:</strong> Secara keseluruhan, sistem membangkitkan total <strong>${fmt(total.epvWh)} Wh</strong> energi surya hari ini. Efisiensi konversi buck secara total mencapai <strong>${fmt(total.eff)}%</strong>. Tegangan aki saat ini terpantau di <strong>${vBattCurrent}V</strong> (${battStatus}), dengan aktuator pompa air dalam kondisi <strong>${pumpStatus}</strong>.`;
+      if (aiStatus.includes("BAHAYA")) {
+         banner.classList.add("bahaya");
+         iconEl.textContent = "🚨";
+         statusEl.style.color = "#ff3b30";
+         aiThemeColor = "#ff3b30";
+         aiDynamicText = `<span style="color:#ff3b30; font-weight:900;">⚠️ PERINGATAN KRITIS:</span> Mesin AI (One-Class SVM) dan Fuzzy Logic mendeteksi tingkat anomali keparahan sebesar <strong>${aiScore.toFixed(1)}%</strong>! Sistem otomasi telah melakukan <strong>CUT-OFF paksa</strong> pada relay pompa untuk mencegah kerusakan hardware. Segera periksa kondisi baterai (${vBattCurrent}V) atau periksa indikasi arus bocor!`;
+      } 
+      else if (aiStatus === "WASPADA") {
+         banner.classList.add("waspada");
+         iconEl.textContent = "⚠️";
+         statusEl.style.color = "#ff9500";
+         aiThemeColor = "#ff9500";
+         aiDynamicText = `<span style="color:#ff9500; font-weight:900;">👀 STATUS WASPADA:</span> AI mendeteksi adanya fluktuasi pola yang tidak biasa dengan skor anomali <strong>${aiScore.toFixed(1)}%</strong>. Pompa masih beroperasi, namun disarankan untuk memantau shading (bayangan) pada panel atau tren performa aki.`;
+      } 
+      else if (aiStatus === "AMAN") {
+         banner.classList.add("aman");
+         iconEl.textContent = "✅";
+         statusEl.style.color = "#00ff88";
+         aiThemeColor = "#00ff88";
+         aiDynamicText = `<span style="color:#00ff88; font-weight:900;">🛡️ AI SYSTEM NORMAL:</span> Skor anomali sangat rendah (<strong>${aiScore.toFixed(1)}%</strong>). <i>Edge Computing</i> ESP32 mengonfirmasi pola tegangan dan arus berjalan sempurna sesuai dataset historis. Sistem kendali diizinkan beroperasi secara natural mengikuti sensor pelampung air.`;
+      } 
+      else {
+         iconEl.textContent = "🤖";
+         aiDynamicText = "Sistem AI sedang melakukan proses kalibrasi dan sinkronisasi data...";
+      }
+
+      // --- 2. UPDATE TEXT SUMMARY HARIAN ---
+      // Bagian Paragraf Khusus AI Insight
+      let html = `<div style="margin-bottom:20px; padding:16px; background:rgba(0,0,0,0.25); border-left:4px solid ${aiThemeColor}; border-radius:0 12px 12px 0; font-size:15px; line-height: 1.6;">
+                    ${aiDynamicText}
+                  </div>`;
+                  
+      html += `<p style="color:var(--text-secondary); margin-bottom:12px;">Rekap performa SCC MPPT hari ini berdasarkan zona iradiasi:</p><ul>`;
+      
+      html += `<li>🌅 <strong>Pagi (06.00 - 10.00):</strong> Energi terkumpul <span class="ai-highlight">${fmt(pagi.epvWh)} Wh</span> dengan rata-rata injeksi <span class="ai-highlight">${fmt(pagi.avgPbat)} W</span> ke baterai. Efisiensi MPPT tercatat <span class="ai-highlight">${fmt(pagi.eff)}%</span>.</li>`;
+      html += `<li>☀️ <strong>Siang (11.00 - 14.00):</strong> Sistem menyerap total <span class="ai-highlight">${fmt(siang.epvWh)} Wh</span> dari panel dan menyalurkan <span class="ai-highlight">${fmt(siang.ebattWh)} Wh</span> ke aki. Tingkat efisiensi rata-rata <span class="ai-highlight">${fmt(siang.eff)}%</span>.</li>`;
+      html += `<li>⛅ <strong>Sore (15.00 - 18.00):</strong> Algoritma menahan duty cycle seiring intensitas matahari menurun. Sisa energi yang ditarik sebesar <span class="ai-highlight">${fmt(sore.epvWh)} Wh</span>.</li>`;
+      
+      let battStatus = "Normal";
+      if(vBattCurrent > 13.8) battStatus = "<span style='color:var(--accent-cyan)'>Kondisi Penuh (Float)</span>";
+      else if (vBattCurrent < 11.5) battStatus = "<span style='color:var(--accent-orange)'>Low Voltage</span>";
+
+      html += `</ul><div style="margin-top: 20px; padding-top: 16px; border-top: 1px dashed rgba(255,255,255,0.1); font-size: 14px;">`;
+      html += `<strong>📊 Akumulasi Harian:</strong> Total energi surya hari ini mencapai <strong>${fmt(total.epvWh)} Wh</strong> dengan efisiensi konversi buck <strong>${fmt(total.eff)}%</strong>. Tegangan aktual aki di <strong>${vBattCurrent}V</strong> (${battStatus}), dengan aktuator pompa terdeteksi <strong>${pumpStatus}</strong>.`;
       html += `</div>`;
 
       document.getElementById("aiContent").innerHTML = html;
-    }
-
-    // ==========================================
-    // TABLES & CHARTS HELPERS
-    // ==========================================
-    function renderSummary(summary) {
-      const body = document.getElementById("summaryBody");
-      body.innerHTML = "";
-      sessions.forEach(s => {
-        const x = summary[s] || {};
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td><strong>${s}</strong></td>
-          <td class="center">${x.count || 0}</td>
-          <td style="color: var(--accent-cyan); font-weight: bold;">${fmt(x.epvWh)} Wh</td>
-          <td style="color: var(--accent-green); font-weight: bold;">${fmt(x.ebattWh)} Wh</td>
-          <td>${fmt(x.avgPpv)} / ${fmt(x.maxPpv)} W</td>
-          <td>${fmt(x.avgPbat)} / ${fmt(x.maxPbat)} W</td>
-          <td>${fmt(x.avgDuty)}%</td>
-          <td style="color: var(--accent-purple); font-weight: bold;">${fmt(x.eff)}%</td>
-        `;
-        body.appendChild(tr);
-      });
     }
 
     function renderRows(rows) {
