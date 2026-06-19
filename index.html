@@ -445,14 +445,26 @@
       <tbody id="logBody"><tr><td colspan="10" class="empty">Menunggu data...</td></tr></tbody>
     </table>
   </div>
-
+<!-- PERBANDINGAN PWM vs MPPT -->
+<h2 class="section-title">
+  <span class="section-title-accent"></span>
+  Perbandingan PWM Fixed vs MPPT
+</h2>
+<div class="topbar">
+  <div class="topbar-label">Pilih Tanggal Test</div>
+  <input type="date" id="compareDateInput">
+  <button class="btn-refresh" onclick="loadComparison()">Bandingkan</button>
+</div>
+<div id="compareResult" class="table-container" style="padding:16px;">
+  <p style="color:var(--text-secondary)">Pilih tanggal lalu klik "Bandingkan".</p>
+</div>
 </div><!-- /container -->
 
 <script>
   // ==========================================
   // CONFIG
   // ==========================================
-  const WEB_APP_URL = https://script.google.com/macros/s/AKfycbzeyDAPFf7nxZ23pB5NSa9vZ0jHQIxW_o0oNJZF4GMNviPU0KIZbHwIM1yJlWvMTzg/exec
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJUmoQ6NFBJ9wFQczbb5KD8KGFFUVHvPrckt3HihddhFQ173LFI2PE0WcsdelZiWVo/exec"
   document.getElementById("apiUrlText").textContent = WEB_APP_URL;
 
   const charts = {};
@@ -473,6 +485,83 @@
   document.getElementById("dateInput").value = todayStr();
   document.getElementById("dateInput").addEventListener("change", () => loadData());
 
+  // ==========================================
+// PERBANDINGAN PWM vs MPPT
+// ==========================================
+function loadComparison() {
+  const date = document.getElementById("compareDateInput").value || todayStr();
+  const cb = "cmpCb_" + Date.now();
+
+  window[cb] = function(data) {
+    delete window[cb];
+    const s = document.getElementById(cb);
+    if (s) s.remove();
+    renderComparison(data);
+  };
+
+  const script = document.createElement("script");
+  script.id  = cb;
+  script.src = `${WEB_APP_URL}?api=compare&date=${encodeURIComponent(date)}&callback=${encodeURIComponent(cb)}&t=${Date.now()}`;
+  script.onerror = function() {
+    delete window[cb];
+    script.remove();
+    document.getElementById("compareResult").innerHTML =
+      "<p style='color:var(--accent-pink)'>Gagal memuat data perbandingan.</p>";
+  };
+  document.body.appendChild(script);
+}
+
+function renderComparison(data) {
+  const wrap = document.getElementById("compareResult");
+  if (!data || !data.ok || !data.runs.length) {
+    wrap.innerHTML = "<p style='color:var(--text-secondary)'>Tidak ada data run untuk tanggal ini.</p>";
+    return;
+  }
+
+  // Ringkasan rata-rata per mode
+  let html = "<div style='display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;'>";
+  ["PWM_FIX", "MPPT"].forEach(m => {
+    const g = data.groupedByMode[m];
+    if (!g) return;
+    const label = m === "PWM_FIX" ? "PWM Fixed" : "MPPT P&O";
+    html += `
+      <div class="card" style="flex:1;min-width:240px;--card-color:${m === 'PWM_FIX' ? 'var(--c-orange)' : 'var(--c-green)'}">
+        <div class="label">${label} — ${g.totalRuns} run</div>
+        <div class="value" style="font-size:22px">${g.avgEfficiencyPct}%</div>
+        <div style="color:var(--text-secondary);font-size:12px;margin-top:8px;line-height:1.6">
+          Energi Panel: <strong>${g.totalEpvWh} Wh</strong><br>
+          Energi Aki: <strong>${g.totalEbattWh} Wh</strong><br>
+          Rata-rata capai ${data.target}V: <strong>${g.avgTimeToTargetText}</strong>
+        </div>
+      </div>`;
+  });
+  html += "</div>";
+
+  // Tabel detail tiap run
+  html += `<table>
+    <thead><tr>
+      <th>Run</th><th>Mode</th><th>Mulai</th><th>Durasi</th>
+      <th>Epv (Wh)</th><th>Ebatt (Wh)</th><th>Efisiensi</th>
+      <th>Peak Vbat</th><th>Waktu ke ${data.target}V</th>
+    </tr></thead><tbody>`;
+
+  data.runs.forEach(r => {
+    html += `<tr>
+      <td>${r.runIndex}</td>
+      <td><span class="status ${r.mode === 'MPPT' ? 'ok' : 'warn'}">${r.mode}</span></td>
+      <td>${r.date} ${r.startTime}</td>
+      <td>${r.durationText}</td>
+      <td>${r.epvWh}</td>
+      <td>${r.ebattWh}</td>
+      <td>${r.efficiencyPct}%</td>
+      <td>${r.peakVbat}V</td>
+      <td>${r.targetReached ? r.timeToTargetText : 'Belum tercapai'}</td>
+    </tr>`;
+  });
+
+  html += "</tbody></table>";
+  wrap.innerHTML = html;
+}
   // ==========================================
   // LOADING STATE HELPERS
   // ==========================================
