@@ -427,7 +427,7 @@
   // ==========================================
   // CONFIG
   // ==========================================
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJUmoQ6NFBJ9wFQczbb5KD8KGFFUVHvPrckt3HihddhFQ173LFI2PE0WcsdelZiWVo/exec";
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwcZwALxxX4qno-_PWEaer_qht13QxkFe3ZgYdUXxVjyAXGq71OlmBs8bkKNkCha9KF/exec";
 
   // Interval refresh dalam detik — 30 detik optimal untuk Apps Script
   // Cukup cepat untuk monitoring, tidak overload quota
@@ -608,7 +608,7 @@
       setLoading(false);
       setStatusText("Timeout 20s — Server sibuk, coba lagi", true);
       startCountdown();
-    }, 20000);
+    }, 30000);
 
     window[cb] = function(data) {
       clearTimeout(pendingTimeout);
