@@ -431,13 +431,15 @@
 
   // Interval refresh dalam detik — 30 detik optimal untuk Apps Script
   // Cukup cepat untuk monitoring, tidak overload quota
-  const REFRESH_INTERVAL_SEC = 30;
+  const REFRESH_INTERVAL_SEC = 60;
 
   const charts = {};
   let currentLoadedDate = null;
   let pendingCallback = null;
   let pendingTimeout = null;
   let isFetching = false;          // ← kunci: cegah request overlap
+  let retryCount = 0;
+const MAX_RETRY = 1; // coba ulang 1x sebelum menyerah
   let autoRefreshTimer = null;     // timer countdown
   let countdownSec = REFRESH_INTERVAL_SEC;
 
@@ -595,48 +597,57 @@
   }
 
   function loadDataJsonp(date) {
-    const cb = "sccCb_" + Date.now();
-    pendingCallback = cb;
+  const cb = "sccCb_" + Date.now();
+  pendingCallback = cb;
 
-    // Timeout 20 detik — setelah itu reset dan mulai countdown
-    pendingTimeout = setTimeout(() => {
-      if (!window[cb]) return;
-      delete window[cb];
-      const s = document.getElementById(cb); if (s) s.remove();
-      pendingCallback = null;
+  pendingTimeout = setTimeout(() => {
+    if (!window[cb]) return;
+    delete window[cb];
+    const s = document.getElementById(cb); if (s) s.remove();
+    pendingCallback = null;
+
+    if (retryCount < MAX_RETRY) {
+      retryCount++;
+      setStatusText("Timeout — Mencoba ulang ke-" + retryCount + "...", true);
+      isFetching = false;
+      loadDataJsonp(date); // retry otomatis
+    } else {
+      retryCount = 0;
       isFetching = false;
       setLoading(false);
-      setStatusText("Timeout 20s — Server sibuk, coba lagi", true);
+      setStatusText("Timeout 45d — Server sibuk, coba manual", true);
       startCountdown();
-    }, 30000);
+    }
+  }, 45000); // 45 detik timeout — cukup untuk cold start Apps Script
 
-    window[cb] = function(data) {
-      clearTimeout(pendingTimeout);
-      pendingCallback = null;
-      delete window[cb];
-      const s = document.getElementById(cb); if (s) s.remove();
-      isFetching = false;
-      setLoading(false);
-      render(data);
-      startCountdown();   // ← countdown dimulai SETELAH response diterima
-    };
+  window[cb] = function(data) {
+    clearTimeout(pendingTimeout);
+    pendingCallback = null;
+    retryCount = 0; // reset retry counter
+    delete window[cb];
+    const s = document.getElementById(cb); if (s) s.remove();
+    isFetching = false;
+    setLoading(false);
+    render(data);
+    startCountdown();
+  };
 
-    const script = document.createElement("script");
-    script.id  = cb;
-    script.src = `${WEB_APP_URL}?api=data&date=${encodeURIComponent(date)}&callback=${encodeURIComponent(cb)}&t=${Date.now()}`;
-    script.onerror = function() {
-      clearTimeout(pendingTimeout);
-      pendingCallback = null;
-      delete window[cb];
-      script.remove();
-      isFetching = false;
-      setLoading(false);
-      setStatusText("Gagal koneksi — Cek URL / jaringan", true);
-      startCountdown();
-    };
-    document.body.appendChild(script);
-  }
-
+  const script = document.createElement("script");
+  script.id  = cb;
+  script.src = `${WEB_APP_URL}?api=data&date=${encodeURIComponent(date)}&callback=${encodeURIComponent(cb)}&t=${Date.now()}`;
+  script.onerror = function() {
+    clearTimeout(pendingTimeout);
+    pendingCallback = null;
+    retryCount = 0;
+    delete window[cb];
+    script.remove();
+    isFetching = false;
+    setLoading(false);
+    setStatusText("Gagal koneksi — Cek URL / jaringan", true);
+    startCountdown();
+  };
+  document.body.appendChild(script);
+}
   // ==========================================
   // RENDER MAIN
   // ==========================================
