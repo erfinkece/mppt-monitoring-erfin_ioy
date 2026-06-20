@@ -33,7 +33,6 @@
     }
     @keyframes bgShift { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
 
-    /* ── HEADER ── */
     header {
       background: rgba(10,14,39,0.9); backdrop-filter: blur(20px);
       padding: 20px 24px; text-align: center;
@@ -44,10 +43,8 @@
     header h1 { margin: 0; font-size: 24px; font-weight: 800; background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     header p { margin: 6px 0 0; font-size: 13px; color: var(--text-secondary); }
 
-    /* ── CONTAINER ── */
     .container { padding: 24px; max-width: 1400px; margin: auto; }
 
-    /* ── TOPBAR ── */
     .topbar {
       display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
       margin-bottom: 24px; background: var(--bg-card);
@@ -77,7 +74,6 @@
     .btn-refresh:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,217,255,0.3); }
     .btn-refresh:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* Loading Spinner */
     .spinner {
       width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
       border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite;
@@ -92,25 +88,22 @@
     .status-dot.error { background: var(--c-red); animation: none; }
     @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-    /* API Box */
-    .api-box {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(0,0,0,0.3); padding: 10px 16px; border-radius: 10px;
-      font-size: 12px; word-break: break-all; margin-bottom: 20px;
-      color: var(--text-secondary); border: 1px dashed var(--border);
+    /* countdown pill */
+    .countdown-pill {
+      font-size: 12px; padding: 3px 10px; border-radius: 999px;
+      background: rgba(0,217,255,0.08); border: 1px solid rgba(0,217,255,0.2);
+      color: var(--accent-cyan); font-weight: 700; white-space: nowrap;
     }
-    .api-box svg { flex-shrink: 0; opacity: 0.6; }
 
-    /* ── AI ALERT BANNER ── */
     .ai-alert-banner {
       margin: 0 0 20px; padding: 20px 24px; border-radius: 16px;
       display: flex; align-items: center; justify-content: space-between;
       border: 1px solid var(--border); transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
       box-shadow: 0 8px 32px rgba(0,0,0,0.2); background: var(--bg-card);
     }
-    .ai-alert-banner.aman   { background: linear-gradient(145deg, rgba(0,255,136,0.1), rgba(0,0,0,0.3)); border-color: rgba(0,255,136,0.4); box-shadow: 0 0 20px rgba(0,255,136,0.1); }
-    .ai-alert-banner.waspada{ background: linear-gradient(145deg, rgba(255,149,0,0.15), rgba(0,0,0,0.3)); border-color: rgba(255,149,0,0.5); }
-    .ai-alert-banner.bahaya { background: linear-gradient(145deg, rgba(255,59,48,0.2), rgba(0,0,0,0.4)); border-color: rgba(255,59,48,0.8); animation: pulseRed 2s infinite; }
+    .ai-alert-banner.aman    { background: linear-gradient(145deg, rgba(0,255,136,0.1), rgba(0,0,0,0.3)); border-color: rgba(0,255,136,0.4); box-shadow: 0 0 20px rgba(0,255,136,0.1); }
+    .ai-alert-banner.waspada { background: linear-gradient(145deg, rgba(255,149,0,0.15), rgba(0,0,0,0.3)); border-color: rgba(255,149,0,0.5); }
+    .ai-alert-banner.bahaya  { background: linear-gradient(145deg, rgba(255,59,48,0.2), rgba(0,0,0,0.4)); border-color: rgba(255,59,48,0.8); animation: pulseRed 2s infinite; }
     .ai-alert-banner.historis{ background: linear-gradient(145deg, rgba(168,179,212,0.08), rgba(0,0,0,0.3)); border-color: rgba(168,179,212,0.25); }
     @keyframes pulseRed { 0%,100%{box-shadow:0 0 15px rgba(255,59,48,0.2)} 50%{box-shadow:0 0 40px rgba(255,59,48,0.5)} }
 
@@ -123,7 +116,6 @@
     .ai-alert-score-value { font-size: 34px; font-weight: 900; display: block; line-height: 1; }
     .ai-alert-score-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; display: block; }
 
-    /* ── AI INSIGHT BOX ── */
     .ai-box {
       background: linear-gradient(145deg, rgba(0,217,255,0.08), rgba(181,55,242,0.04));
       border: 1px solid rgba(0,217,255,0.25); border-radius: 16px;
@@ -134,7 +126,6 @@
     .ai-content { font-size: 15px; line-height: 1.7; color: #e2e8f0; }
     .ai-highlight { color: var(--accent-green); font-weight: 700; }
 
-    /* ── STATUS CARDS ── */
     .grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 16px; margin-bottom: 28px; }
     .card {
       background: var(--bg-card); border-radius: 14px; padding: 18px;
@@ -148,14 +139,12 @@
     .value { font-size: 26px; font-weight: 800; color: var(--card-color, var(--accent-cyan)); line-height: 1; }
     .value-unit { font-size: 13px; color: var(--text-secondary); margin-left: 2px; }
 
-    /* Status Pills */
     .status { display: inline-block; padding: 5px 12px; border-radius: 999px; font-weight: 800; font-size: 12px; letter-spacing: 0.5px; }
     .ok    { background: rgba(0,255,136,0.15); color: var(--accent-green); border: 1px solid rgba(0,255,136,0.3); }
     .warn  { background: rgba(255,149,0,0.15);  color: var(--accent-orange); border: 1px solid rgba(255,149,0,0.3); }
     .bad   { background: rgba(255,62,136,0.15); color: var(--accent-pink); border: 1px solid rgba(255,62,136,0.3); }
     .night { background: rgba(0,217,255,0.1);   color: var(--accent-cyan); border: 1px solid rgba(0,217,255,0.3); }
 
-    /* ── SECTION TITLES ── */
     .section-title {
       display: flex; align-items: center; gap: 10px;
       font-size: 20px; font-weight: 800; margin: 36px 0 18px;
@@ -164,7 +153,6 @@
     .section-title svg { width: 22px; height: 22px; flex-shrink: 0; }
     .section-title-accent { width: 4px; height: 22px; border-radius: 2px; background: var(--gradient-1); flex-shrink: 0; }
 
-    /* ── CHART HEADER ── */
     .chart-header {
       display: flex; justify-content: space-between; align-items: center;
       flex-wrap: wrap; gap: 10px; margin: 36px 0 16px;
@@ -172,15 +160,8 @@
     }
     .chart-header .section-title { margin: 0; padding: 0; border: none; }
 
-    /* ── CHART GRID: 3 KOLOM ── */
-    .chart-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px; margin-bottom: 32px;
-    }
-    /* Grafik ke-4 (Akumulasi Energi) mengisi 1 baris penuh di bawah */
+    .chart-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 32px; }
     .chart-card-wide { grid-column: 1 / -1; }
-
     .chart-card { background: var(--bg-card); border-radius: 14px; padding: 18px; border: 1px solid var(--border); }
     .chart-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
     .chart-card-header svg { width: 16px; height: 16px; flex-shrink: 0; }
@@ -188,7 +169,6 @@
     .canvas-container { position: relative; height: 300px; width: 100%; }
     .chart-card-wide .canvas-container { height: 240px; }
 
-    /* ── TABLES ── */
     .table-container { overflow-x: auto; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); margin-bottom: 28px; }
     table { width: 100%; border-collapse: collapse; text-align: left; }
     th, td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -198,36 +178,23 @@
     tr:hover td { background: rgba(255,255,255,0.02); }
     tr.row-total td { font-weight: 700; background: rgba(0,217,255,0.04); border-top: 1px solid rgba(0,217,255,0.15); }
 
-    /* ── SKELETON LOADING ── */
     .skeleton-line { height: 18px; border-radius: 6px; background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; margin-bottom: 8px; }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
-      .chart-grid { grid-template-columns: repeat(2, 1fr); }
-      .chart-card-wide { grid-column: 1 / -1; }
-    }
+    @media (max-width: 1100px) { .chart-grid { grid-template-columns: repeat(2, 1fr); } .chart-card-wide { grid-column: 1 / -1; } }
     @media (max-width: 768px) {
-      .container { padding: 12px; }
-      header { padding: 14px 12px; }
-      header h1 { font-size: 18px; }
+      .container { padding: 12px; } header { padding: 14px 12px; } header h1 { font-size: 18px; }
       .topbar { flex-direction: column; align-items: stretch; padding: 14px; gap: 10px; }
       .topbar input, .topbar .btn-refresh { width: 100%; justify-content: center; }
-      .status-bar { margin-left: 0; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .value { font-size: 22px; }
-      .chart-grid { grid-template-columns: 1fr; }
-      .chart-card-wide { grid-column: 1; }
-      .canvas-container { height: 220px; }
-      .chart-card-wide .canvas-container { height: 200px; }
+      .status-bar { margin-left: 0; } .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .value { font-size: 22px; } .chart-grid { grid-template-columns: 1fr; } .chart-card-wide { grid-column: 1; }
+      .canvas-container { height: 220px; } .chart-card-wide .canvas-container { height: 200px; }
       .ai-alert-banner { flex-direction: column; text-align: center; gap: 14px; }
       .ai-alert-icon-wrap { margin-right: 0; }
       .ai-alert-score { border-left: none; border-top: 1px solid var(--border); padding-left: 0; padding-top: 12px; width: 100%; }
       .section-title { font-size: 17px; margin: 28px 0 14px; }
     }
-    @media (max-width: 480px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-    }
+    @media (max-width: 480px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
@@ -257,11 +224,12 @@
       Pilih Tanggal
     </div>
     <input type="date" id="dateInput">
-    <button class="btn-refresh" id="btnRefresh" onclick="loadData()">
+    <button class="btn-refresh" id="btnRefresh" onclick="manualRefresh()">
       <svg id="btnIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
       <span class="spinner" id="loadSpinner"></span>
       <span id="btnText">Refresh Data</span>
     </button>
+    <span class="countdown-pill" id="countdownPill">⟳ 30d</span>
     <div class="status-bar">
       <span class="status-dot" id="statusDot"></span>
       <span id="lastUpdate">Belum load data</span>
@@ -271,8 +239,7 @@
   <!-- AI ALERT BANNER -->
   <div id="aiAlertBanner" class="ai-alert-banner">
     <div class="ai-alert-icon-wrap" id="aiAlertIconWrap">
-      <!-- icon injected by JS -->
-      <svg id="aiAlertIconSvg" viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
     </div>
     <div class="ai-alert-text">
       <h4 class="ai-alert-title">Edge AI &amp; Fuzzy Logic — One-Class SVM</h4>
@@ -371,7 +338,6 @@
     </select>
   </div>
 
-  <!-- 3-COLUMN CHART GRID -->
   <div class="chart-grid">
     <div class="chart-card">
       <div class="chart-card-header">
@@ -440,130 +406,150 @@
       <tbody id="logBody"><tr><td colspan="10" class="empty">Menunggu data...</td></tr></tbody>
     </table>
   </div>
-<!-- PERBANDINGAN PWM vs MPPT -->
-<h2 class="section-title">
-  <span class="section-title-accent"></span>
-  Perbandingan PWM Fixed vs MPPT
-</h2>
-<div class="topbar">
-  <div class="topbar-label">Pilih Tanggal Test</div>
-  <input type="date" id="compareDateInput">
-  <button class="btn-refresh" onclick="loadComparison()">Bandingkan</button>
-</div>
-<div id="compareResult" class="table-container" style="padding:16px;">
-  <p style="color:var(--text-secondary)">Pilih tanggal lalu klik "Bandingkan".</p>
-</div>
+
+  <!-- PERBANDINGAN PWM vs MPPT -->
+  <h2 class="section-title">
+    <span class="section-title-accent"></span>
+    Perbandingan PWM Fixed vs MPPT
+  </h2>
+  <div class="topbar">
+    <div class="topbar-label">Pilih Tanggal Test</div>
+    <input type="date" id="compareDateInput">
+    <button class="btn-refresh" onclick="loadComparison()">Bandingkan</button>
+  </div>
+  <div id="compareResult" class="table-container" style="padding:16px;">
+    <p style="color:var(--text-secondary)">Pilih tanggal lalu klik "Bandingkan".</p>
+  </div>
+
 </div><!-- /container -->
 
 <script>
   // ==========================================
   // CONFIG
   // ==========================================
-  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJUmoQ6NFBJ9wFQczbb5KD8KGFFUVHvPrckt3HihddhFQ173LFI2PE0WcsdelZiWVo/exec"
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJUmoQ6NFBJ9wFQczbb5KD8KGFFUVHvPrckt3HihddhFQ173LFI2PE0WcsdelZiWVo/exec";
+
+  // Interval refresh dalam detik — 30 detik optimal untuk Apps Script
+  // Cukup cepat untuk monitoring, tidak overload quota
+  const REFRESH_INTERVAL_SEC = 30;
 
   const charts = {};
-  let currentLoadedDate = null;   // track tanggal yang sedang tampil
-  let pendingCallback = null;     // nama callback JSONP yang sedang pending
-  let pendingTimeout = null;      // timeout ID aktif
+  let currentLoadedDate = null;
+  let pendingCallback = null;
+  let pendingTimeout = null;
+  let isFetching = false;          // ← kunci: cegah request overlap
+  let autoRefreshTimer = null;     // timer countdown
+  let countdownSec = REFRESH_INTERVAL_SEC;
 
   Chart.defaults.color = '#a8b3d4';
   Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
 
-  // ── Tanggal hari ini ──
   function todayStr() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
 
-  // Init tanggal & event listener (sekali saja)
   document.getElementById("dateInput").value = todayStr();
-  document.getElementById("dateInput").addEventListener("change", () => loadData());
+  document.getElementById("dateInput").addEventListener("change", () => {
+    cancelAutoRefresh();
+    loadData();
+  });
 
   // ==========================================
-// PERBANDINGAN PWM vs MPPT
-// ==========================================
-function loadComparison() {
-  const date = document.getElementById("compareDateInput").value || todayStr();
-  const cb = "cmpCb_" + Date.now();
-
-  window[cb] = function(data) {
-    delete window[cb];
-    const s = document.getElementById(cb);
-    if (s) s.remove();
-    renderComparison(data);
-  };
-
-  const script = document.createElement("script");
-  script.id  = cb;
-  script.src = `${WEB_APP_URL}?api=compare&date=${encodeURIComponent(date)}&callback=${encodeURIComponent(cb)}&t=${Date.now()}`;
-  script.onerror = function() {
-    delete window[cb];
-    script.remove();
-    document.getElementById("compareResult").innerHTML =
-      "<p style='color:var(--accent-pink)'>Gagal memuat data perbandingan.</p>";
-  };
-  document.body.appendChild(script);
-}
-
-function renderComparison(data) {
-  const wrap = document.getElementById("compareResult");
-  if (!data || !data.ok || !data.runs.length) {
-    wrap.innerHTML = "<p style='color:var(--text-secondary)'>Tidak ada data run untuk tanggal ini.</p>";
-    return;
+  // COUNTDOWN TIMER — muter setiap detik, fetch saat 0
+  // ==========================================
+  function startCountdown() {
+    cancelAutoRefresh();
+    countdownSec = REFRESH_INTERVAL_SEC;
+    updateCountdownPill();
+    autoRefreshTimer = setInterval(() => {
+      countdownSec--;
+      updateCountdownPill();
+      if (countdownSec <= 0) {
+        countdownSec = REFRESH_INTERVAL_SEC;
+        loadData();          // fetch dipanggil hanya saat countdown habis
+      }
+    }, 1000);
   }
 
-  // Ringkasan rata-rata per mode
-  let html = "<div style='display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;'>";
-  ["PWM_FIX", "MPPT"].forEach(m => {
-    const g = data.groupedByMode[m];
-    if (!g) return;
-    const label = m === "PWM_FIX" ? "PWM Fixed" : "MPPT P&O";
-    html += `
-      <div class="card" style="flex:1;min-width:240px;--card-color:${m === 'PWM_FIX' ? 'var(--c-orange)' : 'var(--c-green)'}">
+  function cancelAutoRefresh() {
+    if (autoRefreshTimer) { clearInterval(autoRefreshTimer); autoRefreshTimer = null; }
+  }
+
+  function updateCountdownPill() {
+    document.getElementById("countdownPill").textContent = `⟳ ${countdownSec}d`;
+  }
+
+  // Tombol manual — reset countdown setelah fetch selesai
+  function manualRefresh() {
+    cancelAutoRefresh();
+    countdownSec = REFRESH_INTERVAL_SEC;
+    loadData();
+  }
+
+  // ==========================================
+  // PERBANDINGAN PWM vs MPPT
+  // ==========================================
+  function loadComparison() {
+    const date = document.getElementById("compareDateInput").value || todayStr();
+    const cb = "cmpCb_" + Date.now();
+    window[cb] = function(data) {
+      delete window[cb];
+      const s = document.getElementById(cb); if (s) s.remove();
+      renderComparison(data);
+    };
+    const script = document.createElement("script");
+    script.id  = cb;
+    script.src = `${WEB_APP_URL}?api=compare&date=${encodeURIComponent(date)}&callback=${encodeURIComponent(cb)}&t=${Date.now()}`;
+    script.onerror = function() {
+      delete window[cb]; script.remove();
+      document.getElementById("compareResult").innerHTML = "<p style='color:var(--accent-pink)'>Gagal memuat data perbandingan.</p>";
+    };
+    document.body.appendChild(script);
+  }
+
+  function renderComparison(data) {
+    const wrap = document.getElementById("compareResult");
+    if (!data || !data.ok || !data.runs.length) {
+      wrap.innerHTML = "<p style='color:var(--text-secondary)'>Tidak ada data run untuk tanggal ini.</p>";
+      return;
+    }
+    let html = "<div style='display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;'>";
+    ["PWM_FIX","MPPT"].forEach(m => {
+      const g = data.groupedByMode[m]; if (!g) return;
+      const label = m === "PWM_FIX" ? "PWM Fixed" : "MPPT P&O";
+      html += `<div class="card" style="flex:1;min-width:240px;--card-color:${m==='PWM_FIX'?'var(--c-orange)':'var(--c-green)'}">
         <div class="label">${label} — ${g.totalRuns} run</div>
         <div class="value" style="font-size:22px">${g.avgEfficiencyPct}%</div>
         <div style="color:var(--text-secondary);font-size:12px;margin-top:8px;line-height:1.6">
           Energi Panel: <strong>${g.totalEpvWh} Wh</strong><br>
           Energi Aki: <strong>${g.totalEbattWh} Wh</strong><br>
           Rata-rata capai ${data.target}V: <strong>${g.avgTimeToTargetText}</strong>
-        </div>
-      </div>`;
-  });
-  html += "</div>";
+        </div></div>`;
+    });
+    html += "</div>";
+    html += `<table><thead><tr><th>Run</th><th>Mode</th><th>Mulai</th><th>Durasi</th>
+      <th>Epv (Wh)</th><th>Ebatt (Wh)</th><th>Efisiensi</th><th>Peak Vbat</th><th>Waktu ke ${data.target}V</th>
+      </tr></thead><tbody>`;
+    data.runs.forEach(r => {
+      html += `<tr><td>${r.runIndex}</td>
+        <td><span class="status ${r.mode==='MPPT'?'ok':'warn'}">${r.mode}</span></td>
+        <td>${r.date} ${r.startTime}</td><td>${r.durationText}</td>
+        <td>${r.epvWh}</td><td>${r.ebattWh}</td><td>${r.efficiencyPct}%</td>
+        <td>${r.peakVbat}V</td><td>${r.targetReached?r.timeToTargetText:'Belum tercapai'}</td></tr>`;
+    });
+    html += "</tbody></table>";
+    wrap.innerHTML = html;
+  }
 
-  // Tabel detail tiap run
-  html += `<table>
-    <thead><tr>
-      <th>Run</th><th>Mode</th><th>Mulai</th><th>Durasi</th>
-      <th>Epv (Wh)</th><th>Ebatt (Wh)</th><th>Efisiensi</th>
-      <th>Peak Vbat</th><th>Waktu ke ${data.target}V</th>
-    </tr></thead><tbody>`;
-
-  data.runs.forEach(r => {
-    html += `<tr>
-      <td>${r.runIndex}</td>
-      <td><span class="status ${r.mode === 'MPPT' ? 'ok' : 'warn'}">${r.mode}</span></td>
-      <td>${r.date} ${r.startTime}</td>
-      <td>${r.durationText}</td>
-      <td>${r.epvWh}</td>
-      <td>${r.ebattWh}</td>
-      <td>${r.efficiencyPct}%</td>
-      <td>${r.peakVbat}V</td>
-      <td>${r.targetReached ? r.timeToTargetText : 'Belum tercapai'}</td>
-    </tr>`;
-  });
-
-  html += "</tbody></table>";
-  wrap.innerHTML = html;
-}
   // ==========================================
-  // LOADING STATE HELPERS
+  // LOADING STATE
   // ==========================================
   function setLoading(on) {
-    const btn    = document.getElementById("btnRefresh");
-    const icon   = document.getElementById("btnIcon");
-    const spin   = document.getElementById("loadSpinner");
-    const dot    = document.getElementById("statusDot");
+    const btn  = document.getElementById("btnRefresh");
+    const icon = document.getElementById("btnIcon");
+    const spin = document.getElementById("loadSpinner");
+    const dot  = document.getElementById("statusDot");
     btn.disabled = on;
     icon.style.display = on ? "none" : "block";
     spin.classList.toggle("active", on);
@@ -571,19 +557,20 @@ function renderComparison(data) {
   }
 
   function setStatusText(msg, isError) {
-    const el  = document.getElementById("lastUpdate");
-    const dot = document.getElementById("statusDot");
-    el.textContent = msg;
-    dot.className = "status-dot " + (isError ? "error" : "");
+    document.getElementById("lastUpdate").textContent = msg;
+    document.getElementById("statusDot").className = "status-dot " + (isError ? "error" : "");
   }
 
   // ==========================================
-  // DATA FETCHING — abort-safe JSONP
+  // DATA FETCHING — dengan kunci isFetching
   // ==========================================
   function loadData() {
+    // Jika masih fetching, skip — tidak boleh overlap
+    if (isFetching) return;
+
     const date = document.getElementById("dateInput").value || todayStr();
 
-    // Batalkan request sebelumnya jika masih pending
+    // Bersihkan request lama yang mungkin masih pending
     if (pendingCallback) {
       clearTimeout(pendingTimeout);
       const old = document.getElementById(pendingCallback);
@@ -592,14 +579,14 @@ function renderComparison(data) {
       pendingCallback = null;
     }
 
+    isFetching = true;
     setLoading(true);
     setStatusText("Mengambil data...");
 
-    // Mode google.script.run (saat dibuka sebagai Apps Script page)
     if (typeof google !== "undefined" && google.script && google.script.run) {
       google.script.run
-        .withSuccessHandler(data => { setLoading(false); render(data); })
-        .withFailureHandler(err  => { setLoading(false); setStatusText("Gagal: " + err, true); })
+        .withSuccessHandler(data => { isFetching = false; setLoading(false); render(data); startCountdown(); })
+        .withFailureHandler(err  => { isFetching = false; setLoading(false); setStatusText("Gagal: "+err, true); startCountdown(); })
         .getDashboardData(date);
       return;
     }
@@ -611,24 +598,27 @@ function renderComparison(data) {
     const cb = "sccCb_" + Date.now();
     pendingCallback = cb;
 
+    // Timeout 20 detik — setelah itu reset dan mulai countdown
     pendingTimeout = setTimeout(() => {
       if (!window[cb]) return;
       delete window[cb];
-      const s = document.getElementById(cb);
-      if (s) s.remove();
+      const s = document.getElementById(cb); if (s) s.remove();
       pendingCallback = null;
+      isFetching = false;
       setLoading(false);
-      setStatusText("Timeout 25s — Server sibuk, coba lagi", true);
-    }, 25000);
+      setStatusText("Timeout 20s — Server sibuk, coba lagi", true);
+      startCountdown();
+    }, 20000);
 
     window[cb] = function(data) {
       clearTimeout(pendingTimeout);
       pendingCallback = null;
       delete window[cb];
-      const s = document.getElementById(cb);
-      if (s) s.remove();
+      const s = document.getElementById(cb); if (s) s.remove();
+      isFetching = false;
       setLoading(false);
       render(data);
+      startCountdown();   // ← countdown dimulai SETELAH response diterima
     };
 
     const script = document.createElement("script");
@@ -639,8 +629,10 @@ function renderComparison(data) {
       pendingCallback = null;
       delete window[cb];
       script.remove();
+      isFetching = false;
       setLoading(false);
       setStatusText("Gagal koneksi — Cek URL / jaringan", true);
+      startCountdown();
     };
     document.body.appendChild(script);
   }
@@ -650,29 +642,19 @@ function renderComparison(data) {
   // ==========================================
   function render(data) {
     const now = new Date().toLocaleTimeString('id-ID');
+    if (!data || !data.ok) { setStatusText("Data tidak valid — "+now, true); return; }
+    setStatusText("Diperbarui: "+now);
 
-    if (!data || !data.ok) {
-      setStatusText("Data tidak valid — " + now, true);
-      return;
-    }
-
-    setStatusText("Diperbarui: " + now);
-
-    const date   = data.date || "";
+    const date = data.date || "";
     const latest = data.latest;
     const dateChanged = date !== currentLoadedDate;
     currentLoadedDate = date;
 
-    // Update kartu status
     if (latest) {
-      setText("vpv", latest.Vpv);
-      setText("ipv", latest.Ipv);
-      setText("ppv", latest.Ppv_W);
-      setText("vbat", latest.Vbat);
-      setText("ichg", latest.Icharge);
-      setText("pbat", latest.Pbat_W);
-      setText("duty", latest["Duty_%"]);
-      setText("pompa", latest.Pompa);
+      setText("vpv", latest.Vpv); setText("ipv", latest.Ipv);
+      setText("ppv", latest.Ppv_W); setText("vbat", latest.Vbat);
+      setText("ichg", latest.Icharge); setText("pbat", latest.Pbat_W);
+      setText("duty", latest["Duty_%"]); setText("pompa", latest.Pompa);
       setText("floatSw", latest.Float);
       const st = String(latest.Status || "-");
       const statusEl = document.getElementById("status");
@@ -682,13 +664,9 @@ function renderComparison(data) {
 
     renderSummary(data.summary || {});
     renderRows(data.lastRows || []);
-
-    // Simpan chart data & render
     window.globalChartData = data.chartRows || [];
-    // Jika tanggal berubah → destroy semua chart agar tidak corrupt
     if (dateChanged) destroyAllCharts();
     applyChartFilter();
-
     generateAIInsight(data.summary || {}, latest || {});
   }
 
@@ -704,7 +682,7 @@ function renderComparison(data) {
     if (!rows.length) { renderCharts([]); return; }
     const mins = parseInt(document.getElementById("chartTimeFilter").value);
     if (mins === 0) { renderCharts(rows); return; }
-    const lastMs = parseTimeToMs(rows[rows.length - 1].time);
+    const lastMs = parseTimeToMs(rows[rows.length-1].time);
     const filtered = rows.filter(r => {
       const diff = (lastMs - parseTimeToMs(r.time)) / 60000;
       return diff >= 0 && diff <= mins;
@@ -717,10 +695,10 @@ function renderComparison(data) {
     const s = String(t);
     if (s.includes('T') && s.includes('Z')) {
       const d = new Date(s);
-      return (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds()) * 1000;
+      return (d.getHours()*3600 + d.getMinutes()*60 + d.getSeconds())*1000;
     }
     const m = s.match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
-    if (m) return (parseInt(m[1])*3600 + parseInt(m[2])*60 + (m[3]?parseInt(m[3]):0)) * 1000;
+    if (m) return (parseInt(m[1])*3600 + parseInt(m[2])*60 + (m[3]?parseInt(m[3]):0))*1000;
     return 0;
   }
 
@@ -734,59 +712,44 @@ function renderComparison(data) {
       const m = s.match(/(\d{1,2}):(\d{2})/);
       return m ? `${m[1].padStart(2,'0')}:${m[2]}` : s;
     });
-
-    makeLine("chartPower", "power", labels, [
-      { label:"Ppanel Input (W)", data:rows.map(r=>num(r.ppv)), borderColor:'#00d9ff', bg:'rgba(0,217,255,0.08)', fill:true },
-      { label:"Pbatt Output (W)", data:rows.map(r=>num(r.pbat)), borderColor:'#00ff88' }
-    ], "Daya (W)");
-
-    makeLine("chartVoltage", "voltage", labels, [
-      { label:"Vpanel (V)", data:rows.map(r=>num(r.vpv)),  borderColor:'#ffd60a' },
-      { label:"Vbatt (V)",  data:rows.map(r=>num(r.vbat)), borderColor:'#ff3e88' }
-    ], "Tegangan (V)");
-
-    makeLine("chartDuty", "duty", labels, [
-      { label:"Duty PWM (%)", data:rows.map(r=>num(r.duty)), borderColor:'#00d9ff', bg:'rgba(0,217,255,0.1)', fill:true }
-    ], "Duty (%)");
-
-    makeLine("chartEnergy", "energy", labels, [
-      { label:"Energi Panel (Wh)",   data:rows.map(r=>num(r.epvCum)),   borderColor:'#b537f2', bg:'rgba(181,55,242,0.1)', fill:true },
-      { label:"Energi Baterai (Wh)", data:rows.map(r=>num(r.ebattCum)), borderColor:'#00ff88', bg:'rgba(0,255,136,0.08)', fill:true }
-    ], "Energi Akumulatif (Wh)");
+    makeLine("chartPower","power",labels,[
+      {label:"Ppanel Input (W)",data:rows.map(r=>num(r.ppv)),borderColor:'#00d9ff',bg:'rgba(0,217,255,0.08)',fill:true},
+      {label:"Pbatt Output (W)",data:rows.map(r=>num(r.pbat)),borderColor:'#00ff88'}
+    ],"Daya (W)");
+    makeLine("chartVoltage","voltage",labels,[
+      {label:"Vpanel (V)",data:rows.map(r=>num(r.vpv)),borderColor:'#ffd60a'},
+      {label:"Vbatt (V)",data:rows.map(r=>num(r.vbat)),borderColor:'#ff3e88'}
+    ],"Tegangan (V)");
+    makeLine("chartDuty","duty",labels,[
+      {label:"Duty PWM (%)",data:rows.map(r=>num(r.duty)),borderColor:'#00d9ff',bg:'rgba(0,217,255,0.1)',fill:true}
+    ],"Duty (%)");
+    makeLine("chartEnergy","energy",labels,[
+      {label:"Energi Panel (Wh)",data:rows.map(r=>num(r.epvCum)),borderColor:'#b537f2',bg:'rgba(181,55,242,0.1)',fill:true},
+      {label:"Energi Baterai (Wh)",data:rows.map(r=>num(r.ebattCum)),borderColor:'#00ff88',bg:'rgba(0,255,136,0.08)',fill:true}
+    ],"Energi Akumulatif (Wh)");
   }
 
   function makeLine(canvasId, key, labels, datasets, yLabel) {
     const ctx = document.getElementById(canvasId).getContext("2d");
-    // Selalu rebuild jika chart sudah ada (untuk data baru)
     if (charts[key]) {
       charts[key].data.labels = labels;
-      charts[key].data.datasets.forEach((ds, i) => {
-        if (datasets[i]) ds.data = datasets[i].data;
-      });
-      charts[key].update('none'); // 'none' = no animation on update (lebih cepat)
-      return;
+      charts[key].data.datasets.forEach((ds,i) => { if (datasets[i]) ds.data = datasets[i].data; });
+      charts[key].update('none'); return;
     }
     charts[key] = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels,
-        datasets: datasets.map(ds => ({
-          label: ds.label, data: ds.data,
-          borderColor: ds.borderColor,
-          backgroundColor: ds.bg || 'transparent',
-          tension: 0.35, borderWidth: 2,
-          pointRadius: 0, pointHoverRadius: 4,
-          fill: ds.fill || false
-        }))
-      },
-      options: {
-        responsive: true, maintainAspectRatio: false,
-        animation: { duration: 400 },
-        interaction: { mode: "index", intersect: false },
-        plugins: { legend: { display: true, labels: { color:'#a8b3d4', boxWidth:12, padding:12 } } },
-        scales: {
-          x: { ticks: { maxTicksLimit: 8, color:'#6c7793', maxRotation:0 }, grid: { color:'rgba(255,255,255,0.04)' } },
-          y: { title: { display: true, text: yLabel, color:'#a8b3d4', font:{size:11} }, ticks: { color:'#6c7793' }, grid: { color:'rgba(255,255,255,0.04)' } }
+      type:"line",
+      data:{ labels, datasets:datasets.map(ds=>({
+        label:ds.label, data:ds.data, borderColor:ds.borderColor,
+        backgroundColor:ds.bg||'transparent', tension:0.35, borderWidth:2,
+        pointRadius:0, pointHoverRadius:4, fill:ds.fill||false
+      }))},
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:{duration:400},
+        interaction:{mode:"index",intersect:false},
+        plugins:{legend:{display:true,labels:{color:'#a8b3d4',boxWidth:12,padding:12}}},
+        scales:{
+          x:{ticks:{maxTicksLimit:8,color:'#6c7793',maxRotation:0},grid:{color:'rgba(255,255,255,0.04)'}},
+          y:{title:{display:true,text:yLabel,color:'#a8b3d4',font:{size:11}},ticks:{color:'#6c7793'},grid:{color:'rgba(255,255,255,0.04)'}}
         }
       }
     });
@@ -798,39 +761,31 @@ function renderComparison(data) {
   function renderSummary(summary) {
     const body = document.getElementById("summaryBody");
     body.innerHTML = "";
-    const labels = { PAGI:"Pagi (06–11)", SIANG:"Siang (11–15)", SORE:"Sore (15–18)", MALAM:"Malam (18–06)", LUAR_SESI:"Luar Sesi", TOTAL:"Total Hari Ini" };
+    const labels = {PAGI:"Pagi (06–11)",SIANG:"Siang (11–15)",SORE:"Sore (15–18)",MALAM:"Malam (18–06)",LUAR_SESI:"Luar Sesi",TOTAL:"Total Hari Ini"};
     const keys = ["PAGI","SIANG","SORE","MALAM","LUAR_SESI","TOTAL"];
     let hasData = false;
     keys.forEach(k => {
-      const s = summary[k];
-      if (!s || s.count === 0) return;
+      const s = summary[k]; if (!s || s.count === 0) return;
       hasData = true;
       const tr = document.createElement("tr");
-      if (k === "TOTAL") tr.className = "row-total";
-      tr.innerHTML = `
-        <td style="color:var(--accent-cyan);font-weight:600">${labels[k]||k}</td>
-        <td>${s.count}</td>
-        <td>${fmt(s.epvWh)} Wh</td>
-        <td>${fmt(s.ebattWh)} Wh</td>
-        <td>${fmt(s.avgPpv)} / ${fmt(s.maxPpv)} W</td>
-        <td>${fmt(s.avgPbat)} / ${fmt(s.maxPbat)} W</td>
-        <td>${fmt(s.avgDuty)}%</td>
-        <td>${fmt(s.eff)}%</td>`;
+      if (k==="TOTAL") tr.className="row-total";
+      tr.innerHTML=`<td style="color:var(--accent-cyan);font-weight:600">${labels[k]||k}</td>
+        <td>${s.count}</td><td>${fmt(s.epvWh)} Wh</td><td>${fmt(s.ebattWh)} Wh</td>
+        <td>${fmt(s.avgPpv)} / ${fmt(s.maxPpv)} W</td><td>${fmt(s.avgPbat)} / ${fmt(s.maxPbat)} W</td>
+        <td>${fmt(s.avgDuty)}%</td><td>${fmt(s.eff)}%</td>`;
       body.appendChild(tr);
     });
-    if (!hasData) body.innerHTML = `<tr><td colspan="8" class="empty">Tidak ada data untuk tanggal ini</td></tr>`;
+    if (!hasData) body.innerHTML=`<tr><td colspan="8" class="empty">Tidak ada data untuk tanggal ini</td></tr>`;
   }
 
   function renderRows(rows) {
     const body = document.getElementById("logBody");
     body.innerHTML = "";
-    if (!rows.length) { body.innerHTML = `<tr><td colspan="10" class="empty">Belum ada data</td></tr>`; return; }
+    if (!rows.length) { body.innerHTML=`<tr><td colspan="10" class="empty">Belum ada data</td></tr>`; return; }
     rows.forEach(r => {
-      const st = r.Status || "-";
+      const st = r.Status||"-";
       const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${r.TimestampText || r.Waktu || "-"}</td>
-        <td>${r.Sesi || "-"}</td>
+      tr.innerHTML=`<td>${r.TimestampText||r.Waktu||"-"}</td><td>${r.Sesi||"-"}</td>
         <td>${fmt(r.Vpv)}</td><td>${fmt(r.Ipv)}</td><td>${fmt(r.Ppv_W)}</td>
         <td>${fmt(r.Vbat)}</td><td>${fmt(r.Icharge)}</td><td>${fmt(r.Pbat_W)}</td>
         <td>${fmt(r["Duty_%"])}%</td>
@@ -840,27 +795,26 @@ function renderComparison(data) {
   }
 
   // ==========================================
-  // AI INSIGHT (FIXED: handle historical dates)
+  // AI INSIGHT
   // ==========================================
-  // SVG icons untuk AI banner
   const AI_ICONS = {
-    aman:     `<svg viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
-    waspada:  `<svg viewBox="0 0 24 24" fill="none" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
-    bahaya:   `<svg viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
-    historis: `<svg viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    menunggu: `<svg viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>`
+    aman:    `<svg viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`,
+    waspada: `<svg viewBox="0 0 24 24" fill="none" stroke="#ff9500" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+    bahaya:  `<svg viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    historis:`<svg viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+    menunggu:`<svg viewBox="0 0 24 24" fill="none" stroke="#a8b3d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>`
   };
 
   function generateAIInsight(summary, latest) {
-    const pagi  = summary["PAGI"]  || { epvWh:0, ebattWh:0, avgPpv:0, avgPbat:0, eff:0 };
-    const siang = summary["SIANG"] || { epvWh:0, ebattWh:0, avgPpv:0, avgPbat:0, eff:0 };
-    const sore  = summary["SORE"]  || { epvWh:0, ebattWh:0, avgPpv:0, avgPbat:0, eff:0 };
-    const total = summary["TOTAL"] || { epvWh:0, ebattWh:0, avgPpv:0, avgPbat:0, eff:0, count:0 };
+    const pagi  = summary["PAGI"]  || {epvWh:0,ebattWh:0,avgPpv:0,avgPbat:0,eff:0};
+    const siang = summary["SIANG"] || {epvWh:0,ebattWh:0,avgPpv:0,avgPbat:0,eff:0};
+    const sore  = summary["SORE"]  || {epvWh:0,ebattWh:0,avgPpv:0,avgPbat:0,eff:0};
+    const total = summary["TOTAL"] || {epvWh:0,ebattWh:0,avgPpv:0,avgPbat:0,eff:0,count:0};
 
-    const pumpStatus    = latest.Pompa || "OFF";
-    const vBattCurrent  = parseFloat(latest.Vbat) || 0;
-    const aiScore       = parseFloat(latest.AI_Score) || 0;
-    const rawAiStatus   = String(latest.AI_Status || "").toUpperCase().trim();
+    const pumpStatus   = latest.Pompa || "OFF";
+    const vBattCurrent = parseFloat(latest.Vbat) || 0;
+    const aiScore      = parseFloat(latest.AI_Score) || 0;
+    const rawAiStatus  = String(latest.AI_Status || "").toUpperCase().trim();
 
     const banner   = document.getElementById("aiAlertBanner");
     const iconWrap = document.getElementById("aiAlertIconWrap");
@@ -869,82 +823,55 @@ function renderComparison(data) {
 
     scoreEl.textContent = aiScore.toFixed(1);
     banner.className = "ai-alert-banner";
-    let aiDynamic = "";
-    let aiColor   = "var(--text-secondary)";
-
-    const KNOWN_STATES = ["AMAN", "WASPADA", "BAHAYA"];
-    const isKnownAI    = KNOWN_STATES.some(s => rawAiStatus.includes(s));
+    let aiDynamic = "", aiColor = "var(--text-secondary)";
 
     if (rawAiStatus.includes("BAHAYA")) {
-      banner.classList.add("bahaya");
-      iconWrap.innerHTML = AI_ICONS.bahaya;
-      aiColor = "#ff3b30";
-      statusEl.textContent = rawAiStatus;
-      aiDynamic = `<span style="color:#ff3b30;font-weight:900;">PERINGATAN KRITIS</span> — One-Class SVM &amp; Fuzzy Logic mendeteksi anomali keparahan <strong>${aiScore.toFixed(1)}%</strong>. Sistem melakukan <strong>CUT-OFF paksa</strong> relay pompa. Periksa kondisi baterai (${vBattCurrent}V) atau indikasi arus bocor!`;
-
-    } else if (rawAiStatus === "WASPADA") {
-      banner.classList.add("waspada");
-      iconWrap.innerHTML = AI_ICONS.waspada;
-      aiColor = "#ff9500";
-      statusEl.textContent = "WASPADA";
-      aiDynamic = `<span style="color:#ff9500;font-weight:900;">STATUS WASPADA</span> — AI mendeteksi fluktuasi pola tidak biasa, skor anomali <strong>${aiScore.toFixed(1)}%</strong>. Pompa masih beroperasi, namun pantau shading panel atau tren performa aki.`;
-
-    } else if (rawAiStatus === "AMAN") {
-      banner.classList.add("aman");
-      iconWrap.innerHTML = AI_ICONS.aman;
-      aiColor = "#00ff88";
-      statusEl.textContent = "AMAN";
-      aiDynamic = `<span style="color:#00ff88;font-weight:900;">SISTEM NORMAL</span> — Skor anomali sangat rendah (<strong>${aiScore.toFixed(1)}%</strong>). Edge Computing ESP32 mengonfirmasi pola tegangan dan arus sesuai dataset historis. Sistem kendali beroperasi normal.`;
-
+      banner.classList.add("bahaya"); iconWrap.innerHTML=AI_ICONS.bahaya; aiColor="#ff3b30";
+      statusEl.textContent=rawAiStatus;
+      aiDynamic=`<span style="color:#ff3b30;font-weight:900;">PERINGATAN KRITIS</span> — One-Class SVM &amp; Fuzzy Logic mendeteksi anomali keparahan <strong>${aiScore.toFixed(1)}%</strong>. Sistem melakukan <strong>CUT-OFF paksa</strong> relay pompa. Periksa kondisi baterai (${vBattCurrent}V) atau indikasi arus bocor!`;
+    } else if (rawAiStatus==="WASPADA") {
+      banner.classList.add("waspada"); iconWrap.innerHTML=AI_ICONS.waspada; aiColor="#ff9500";
+      statusEl.textContent="WASPADA";
+      aiDynamic=`<span style="color:#ff9500;font-weight:900;">STATUS WASPADA</span> — AI mendeteksi fluktuasi pola tidak biasa, skor anomali <strong>${aiScore.toFixed(1)}%</strong>. Pompa masih beroperasi, namun pantau shading panel atau tren performa aki.`;
+    } else if (rawAiStatus==="AMAN") {
+      banner.classList.add("aman"); iconWrap.innerHTML=AI_ICONS.aman; aiColor="#00ff88";
+      statusEl.textContent="AMAN";
+      aiDynamic=`<span style="color:#00ff88;font-weight:900;">SISTEM NORMAL</span> — Skor anomali sangat rendah (<strong>${aiScore.toFixed(1)}%</strong>). Edge Computing ESP32 mengonfirmasi pola tegangan dan arus sesuai dataset historis. Sistem kendali beroperasi normal.`;
     } else if (total.count > 0) {
-      // Ada data hari ini tapi tidak ada tag AI (data historis atau ESP belum kirim AI)
-      banner.classList.add("historis");
-      iconWrap.innerHTML = AI_ICONS.historis;
-      aiColor = "#a8b3d4";
-      statusEl.textContent = "DATA HISTORIS";
-      statusEl.style.color = "#a8b3d4";
-      aiDynamic = `<span style="color:#a8b3d4;font-weight:700;">DATA HISTORIS</span> — Tanggal ini tidak memiliki catatan status Edge AI. Menampilkan rekap energi dan performa MPPT dari database.`;
-
+      banner.classList.add("historis"); iconWrap.innerHTML=AI_ICONS.historis; aiColor="#a8b3d4";
+      statusEl.textContent="DATA HISTORIS"; statusEl.style.color="#a8b3d4";
+      aiDynamic=`<span style="color:#a8b3d4;font-weight:700;">DATA HISTORIS</span> — Tanggal ini tidak memiliki catatan status Edge AI. Menampilkan rekap energi dan performa MPPT dari database.`;
     } else {
-      iconWrap.innerHTML = AI_ICONS.menunggu;
-      statusEl.textContent = "TIDAK ADA DATA";
-      statusEl.style.color = "#a8b3d4";
-      aiDynamic = "Tidak ada data tersimpan untuk tanggal yang dipilih. Pilih tanggal lain atau tunggu pengiriman data dari ESP32.";
+      iconWrap.innerHTML=AI_ICONS.menunggu;
+      statusEl.textContent="TIDAK ADA DATA"; statusEl.style.color="#a8b3d4";
+      aiDynamic="Tidak ada data tersimpan untuk tanggal yang dipilih. Pilih tanggal lain atau tunggu pengiriman data dari ESP32.";
     }
-
     statusEl.style.color = aiColor;
 
-    // ── AI Summary Text ──
     let battStatus = "Normal";
-    if (vBattCurrent > 13.8) battStatus = `<span style='color:var(--accent-cyan)'>Kondisi Penuh (Float)</span>`;
-    else if (vBattCurrent < 11.5) battStatus = `<span style='color:var(--accent-orange)'>Low Voltage</span>`;
+    if (vBattCurrent > 13.8) battStatus=`<span style='color:var(--accent-cyan)'>Kondisi Penuh (Float)</span>`;
+    else if (vBattCurrent < 11.5) battStatus=`<span style='color:var(--accent-orange)'>Low Voltage</span>`;
 
-    let html = `<div style="margin-bottom:18px;padding:14px 16px;background:rgba(0,0,0,0.25);border-left:3px solid ${aiColor};border-radius:0 10px 10px 0;font-size:14px;line-height:1.65;">${aiDynamic}</div>`;
-
+    let html=`<div style="margin-bottom:18px;padding:14px 16px;background:rgba(0,0,0,0.25);border-left:3px solid ${aiColor};border-radius:0 10px 10px 0;font-size:14px;line-height:1.65;">${aiDynamic}</div>`;
     if (total.count > 0) {
-      html += `<p style="color:var(--text-secondary);margin:0 0 10px;font-size:13px;">Rekap performa SCC MPPT berdasarkan zona iradiasi:</p><ul style="margin:0;padding-left:20px;line-height:1.9;font-size:14px;">`;
-      html += `<li><strong>Pagi (06–11):</strong> Energi terkumpul <span class="ai-highlight">${fmt(pagi.epvWh)} Wh</span>, injeksi ke baterai <span class="ai-highlight">${fmt(pagi.avgPbat)} W</span>, efisiensi <span class="ai-highlight">${fmt(pagi.eff)}%</span></li>`;
-      html += `<li><strong>Siang (11–15):</strong> Panel menyerap <span class="ai-highlight">${fmt(siang.epvWh)} Wh</span>, tersalur ke aki <span class="ai-highlight">${fmt(siang.ebattWh)} Wh</span>, efisiensi <span class="ai-highlight">${fmt(siang.eff)}%</span></li>`;
-      html += `<li><strong>Sore (15–18):</strong> Duty cycle mereda, sisa energi panel <span class="ai-highlight">${fmt(sore.epvWh)} Wh</span></li>`;
-      html += `</ul><div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,0.1);font-size:13px;">`;
-      html += `<strong>Akumulasi Harian:</strong> Total surya <strong>${fmt(total.epvWh)} Wh</strong>, efisiensi konversi <strong>${fmt(total.eff)}%</strong>. Aki di <strong>${vBattCurrent}V</strong> (${battStatus}), pompa <strong>${pumpStatus}</strong>.</div>`;
+      html+=`<p style="color:var(--text-secondary);margin:0 0 10px;font-size:13px;">Rekap performa SCC MPPT berdasarkan zona iradiasi:</p><ul style="margin:0;padding-left:20px;line-height:1.9;font-size:14px;">`;
+      html+=`<li><strong>Pagi (06–11):</strong> Energi terkumpul <span class="ai-highlight">${fmt(pagi.epvWh)} Wh</span>, injeksi ke baterai <span class="ai-highlight">${fmt(pagi.avgPbat)} W</span>, efisiensi <span class="ai-highlight">${fmt(pagi.eff)}%</span></li>`;
+      html+=`<li><strong>Siang (11–15):</strong> Panel menyerap <span class="ai-highlight">${fmt(siang.epvWh)} Wh</span>, tersalur ke aki <span class="ai-highlight">${fmt(siang.ebattWh)} Wh</span>, efisiensi <span class="ai-highlight">${fmt(siang.eff)}%</span></li>`;
+      html+=`<li><strong>Sore (15–18):</strong> Duty cycle mereda, sisa energi panel <span class="ai-highlight">${fmt(sore.epvWh)} Wh</span></li>`;
+      html+=`</ul><div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(255,255,255,0.1);font-size:13px;">`;
+      html+=`<strong>Akumulasi Harian:</strong> Total surya <strong>${fmt(total.epvWh)} Wh</strong>, efisiensi konversi <strong>${fmt(total.eff)}%</strong>. Aki di <strong>${vBattCurrent}V</strong> (${battStatus}), pompa <strong>${pumpStatus}</strong>.</div>`;
     }
-
     document.getElementById("aiContent").innerHTML = html;
   }
 
   // ==========================================
   // UTILITY
   // ==========================================
-  function setText(id, v) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = fmt(v);
-  }
-  function fmt(v) { const n = Number(v); return isNaN(n) ? (v || "0") : (Math.round(n*100)/100); }
-  function num(v)  { const n = Number(v); return isNaN(n) ? 0 : n; }
-
+  function setText(id, v) { const el=document.getElementById(id); if(el) el.textContent=fmt(v); }
+  function fmt(v) { const n=Number(v); return isNaN(n)?(v||"0"):(Math.round(n*100)/100); }
+  function num(v)  { const n=Number(v); return isNaN(n)?0:n; }
   function statusClass(st) {
-    st = st.toUpperCase();
+    st=st.toUpperCase();
     if (st.includes("CHARGE")||st.includes("READY")||st.includes("MPPT")||st.includes("START")) return "ok";
     if (st.includes("NIGHT")||st.includes("MALAM")||st.includes("VP LOW"))                     return "night";
     if (st.includes("FULL")||st.includes("LIMIT")||st.includes("ERR"))                         return "warn";
@@ -954,7 +881,6 @@ function renderComparison(data) {
 
   // ── INIT ──
   loadData();
-  setInterval(loadData, 10000); // auto-refresh tiap 90 detik
 </script>
 </body>
 </html>
